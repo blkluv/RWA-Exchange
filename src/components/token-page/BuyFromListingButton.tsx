@@ -155,26 +155,31 @@ export default function BuyFromListingButton(props: Props) {
 	};
 
 	return (
-		<>
-			<MotionButton
-				onClick={onOpen}
-				size="lg"
-				colorScheme="purple"
-				fontFamily="Outfit"
-				fontWeight="700"
-				px={8}
-				py={6}
-				rightIcon={<FaShoppingCart />}
-				whileHover={{ scale: 1.05 }}
-				whileTap={{ scale: 0.95 }}
-				_hover={{
-					transform: "translateY(-2px)",
-					boxShadow: "xl"
-				}}
-				transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-			>
-				Buy Fractions
-			</MotionButton>
+		<VStack spacing={4} align="stretch">
+			<HStack spacing={3} align="stretch">
+				<MotionButton
+					onClick={onOpen}
+					size="lg"
+					colorScheme="purple"
+					fontFamily="Outfit"
+					fontWeight="700"
+					px={8}
+					py={6}
+					flex={1}
+					rightIcon={<FaShoppingCart />}
+					whileHover={{ scale: 1.02 }}
+					whileTap={{ scale: 0.98 }}
+					_hover={{
+						transform: "translateY(-2px)",
+						boxShadow: "xl"
+					}}
+					transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+				>
+					Buy Fractions
+				</MotionButton>
+				
+				<OneIdVerification account={account} />
+			</HStack>
 
 			<Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
 				<ModalOverlay backdropFilter="blur(10px)" />
@@ -284,8 +289,6 @@ export default function BuyFromListingButton(props: Props) {
 					</ModalBody>
 				</ModalContent>
 			</Modal>
-
-			<OneIdVerification account={account} />
-		</>
+		</VStack>
 	);
 }

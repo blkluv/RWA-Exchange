@@ -13,6 +13,8 @@ import {
   Image,
   useToast,
   Box,
+  VStack,
+  HStack,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { NATIVE_TOKEN_ADDRESS, sendAndConfirmTransaction } from "thirdweb";
@@ -144,10 +146,16 @@ export function CreateListing(props: Props) {
             ))}
           </MenuList>
         </Menu>
-        <>
-<Button
-          isDisabled={!currency}
-          onClick={async () => {
+        <VStack spacing={4} align="stretch">
+          <HStack spacing={3} align="stretch">
+            <Button
+              isDisabled={!currency}
+              flex={1}
+              size="lg"
+              colorScheme="purple"
+              fontFamily="Outfit"
+              fontWeight="700"
+              onClick={async () => {
             const value = priceRef.current?.value;
             if (!value) {
               return toast({
@@ -224,11 +232,13 @@ export function CreateListing(props: Props) {
             });
             refetchAllListings();
           }}
-        >
-          List
-        </Button>
-<OneIdVerification account={account} />
-</>
+            >
+              Create Listing
+            </Button>
+            
+            <OneIdVerification account={account} />
+          </HStack>
+        </VStack>
       </Flex>
     </>
   );
