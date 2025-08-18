@@ -186,18 +186,18 @@ export default function Dashboard() {
         </Box>
 
         <Box p={4} borderWidth="1px" rounded="md">
-          <Heading size="md" mb={2}>
-            Rewards / ROI
-          </Heading>
-          <Flex align="baseline" gap={2}>
-            <Heading size="lg">{roiPct}%</Heading>
-            <StatHelpText m={0}>
-              <StatArrow type={roiPct >= 0 ? "increase" : "decrease"} /> vs last 30d
-            </StatHelpText>
-          </Flex>
-          <Text color="gray" mt={2}>
-            Hook this up to your staking/yield module when available.
-          </Text>
+          <Stat>
+            <StatLabel>Rewards / ROI</StatLabel>
+            <Flex align="baseline" gap={2}>
+              <StatNumber fontSize="lg">{roiPct}%</StatNumber>
+              <StatHelpText m={0}>
+                <StatArrow type={roiPct >= 0 ? "increase" : "decrease"} /> vs last 30d
+              </StatHelpText>
+            </Flex>
+            <Text color="gray" mt={2} fontSize="sm">
+              Hook this up to your staking/yield module when available.
+            </Text>
+          </Stat>
         </Box>
       </SimpleGrid>
     </Box>

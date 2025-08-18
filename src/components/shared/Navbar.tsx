@@ -40,7 +40,7 @@ export function Navbar() {
   };
 
   return (
-    <Box py="30px" px={{ base: "20px", lg: "50px" }}>
+    <Box py="16px" px={{ base: "20px", lg: "50px" }}>
       <Flex direction="row" justifyContent="space-between" align="center">
         <Box my="auto">
           <Heading
@@ -50,7 +50,7 @@ export function Navbar() {
             bgGradient="linear(to-l, #7928CA, #FF0080)"
             bgClip="text"
             fontWeight="extrabold"
-            size={{ base: "lg", md: "xl" }}
+            size={{ base: "md", md: "lg" }}
           >
             RWA ExChange
           </Heading>
@@ -60,13 +60,13 @@ export function Navbar() {
         <HStack display={{ lg: "flex", base: "none" }} spacing={4}>
           <HStack spacing={6}>
             <Link href="/landing" _hover={{ textDecoration: "none" }}>
-              <Text fontWeight="medium">About</Text>
+              <Text fontWeight="medium" fontSize="sm">About</Text>
             </Link>
             <Link href="/dashboard" _hover={{ textDecoration: "none" }}>
-              <Text fontWeight="medium">Dashboard</Text>
+              <Text fontWeight="medium" fontSize="sm">Dashboard</Text>
             </Link>
             <Link href="/collection" _hover={{ textDecoration: "none" }}>
-              <Text fontWeight="medium">Marketplace</Text>
+              <Text fontWeight="medium" fontSize="sm">Marketplace</Text>
             </Link>
           </HStack>
           
@@ -81,8 +81,9 @@ export function Navbar() {
               connectButton={{
                 label: "Connect Wallet",
                 style: {
-                  height: "56px",
-                  minWidth: "140px",
+                  height: "40px",
+                  minWidth: "120px",
+                  fontSize: "14px"
                 }
               }}
             />
@@ -98,15 +99,16 @@ export function Navbar() {
 function ProfileButton({ address, onLogout }: { address: string; onLogout: () => void }) {
   return (
     <Menu>
-      <MenuButton as={Button} height="56px">
-        <Flex direction="row" gap="5">
-          <Box my="auto">
-            <FiUser size={30} />
+      <MenuButton as={Button} height="40px" px="12px">
+        <Flex direction="row" gap="2" align="center">
+          <Box>
+            <FiUser size={18} />
           </Box>
           <Image
             src={blo(address as `0x${string}`)}
-            height="40px"
-            rounded="8px"
+            height="24px"
+            width="24px"
+            rounded="6px"
           />
         </Flex>
       </MenuButton>
@@ -123,8 +125,8 @@ function ProfileButton({ address, onLogout }: { address: string; onLogout: () =>
 function ToggleThemeButton() {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Button height="56px" w="56px" onClick={toggleColorMode} mr="10px">
-      {colorMode === "light" ? <FaRegMoon /> : <IoSunny />}
+    <Button height="40px" w="40px" onClick={toggleColorMode} mr="8px">
+      {colorMode === "light" ? <FaRegMoon size={16} /> : <IoSunny size={16} />}
     </Button>
   );
 }
