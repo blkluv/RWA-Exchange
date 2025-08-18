@@ -1,7 +1,6 @@
 
 <div align="center">
-  
-  
+
   <h1>OneRWA Marketplace</h1>
   
   <p><strong>A marketplace for tokenized Real-World Assets (RWA) built with thirdweb.</strong></p>
