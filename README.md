@@ -48,7 +48,7 @@
 - **State/Data**: @tanstack/react-query
 
 
-## Mermaid Flowchart (Dev + User Flow)
+## Dev + User Flow
 
 ```mermaid
 flowchart TD
