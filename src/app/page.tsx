@@ -4,73 +4,184 @@ import { NFT_CONTRACTS } from "@/consts/nft_contracts";
 import { Link } from "@chakra-ui/next-js";
 import {
   Box,
-  Card,
-  CardBody,
-  CardHeader,
+  Button,
+  Container,
   Flex,
   Heading,
   Image,
-  Stack,
-  StackDivider,
   Text,
+  SimpleGrid,
+  VStack,
+  HStack,
+  Badge,
+  useColorModeValue,
+  Icon,
+  Stat,
+  StatLabel,
+  StatNumber,
 } from "@chakra-ui/react";
+import { FaArrowRight, FaChartLine, FaGlobe, FaShieldAlt } from "react-icons/fa";
 
 export default function Home() {
-  return (
-    <Flex>
-      <Box mt="24px" m="auto">
-        <Flex direction="column" gap="4">
-          {/* Delete this <Card /> in your own app */}
-          <Card border="1px" maxW="90vw" mx="auto">
-            <CardHeader>
-              <Heading size="md">Welcome to OneRWA Marketplace</Heading>
-            </CardHeader>
+  const gradient = useColorModeValue(
+    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)"
+  );
+  const cardBg = useColorModeValue("white", "gray.800");
+  const textColor = useColorModeValue("gray.600", "gray.300");
 
-            <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
-                {_rwaFeatures.map((item) => (
-                  <Box key={item.title}>
-                    <Heading size="xs" textTransform="uppercase">
-                      {item.title}
-                    </Heading>
-                    {item.bullet_points.map((pt) => (
-                      <Text pt="2" fontSize="sm" key={pt}>
-                        {pt}
-                      </Text>
-                    ))}
-                  </Box>
-                ))}
-              </Stack>
-            </CardBody>
-          </Card>
-          <Heading ml="20px" mt="40px">
+  return (
+    <Box>
+      {/* Hero Section */}
+      <Box
+        bg={gradient}
+        py={{ base: 16, md: 24 }}
+        color="white"
+        textAlign="center"
+      >
+        <Container maxW="6xl">
+          <VStack spacing={6}>
+            <Badge colorScheme="purple" variant="solid" px={4} py={2} rounded="full">
+              🌟 Live Marketplace
+            </Badge>
+            
+            <Heading size={{ base: "xl", md: "3xl" }} fontWeight="bold">
+              Invest in Real-World Assets
+            </Heading>
+            
+            <Text fontSize={{ base: "lg", md: "xl" }} maxW="2xl" opacity={0.9}>
+              Discover tokenized real estate, art, commodities, and more. 
+              Start with fractional ownership from just $100.
+            </Text>
+            
+            <HStack spacing={4} pt={4}>
+              <Button 
+                as={Link} 
+                href="/landing" 
+                size="lg"
+                colorScheme="white"
+                variant="solid"
+                color="purple.600"
+                rightIcon={<FaArrowRight />}
+              >
+                Learn More
+              </Button>
+              <Button 
+                as={Link} 
+                href="/dashboard" 
+                size="lg"
+                variant="outline"
+                borderColor="white"
+                color="white"
+                _hover={{ bg: "whiteAlpha.200" }}
+              >
+                View Dashboard
+              </Button>
+            </HStack>
+          </VStack>
+        </Container>
+      </Box>
+
+      {/* Quick Stats */}
+      <Box py={12} bg={useColorModeValue("gray.50", "gray.900")}>
+        <Container maxW="6xl">
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            <VStack>
+              <Icon as={FaChartLine} w={8} h={8} color="purple.500" />
+              <Stat textAlign="center">
+                <StatNumber fontSize="2xl" color="purple.500">$2.5M+</StatNumber>
+                <StatLabel>Total Value Locked</StatLabel>
+              </Stat>
+            </VStack>
+            <VStack>
+              <Icon as={FaGlobe} w={8} h={8} color="purple.500" />
+              <Stat textAlign="center">
+                <StatNumber fontSize="2xl" color="purple.500">25+</StatNumber>
+                <StatLabel>Asset Categories</StatLabel>
+              </Stat>
+            </VStack>
+            <VStack>
+              <Icon as={FaShieldAlt} w={8} h={8} color="purple.500" />
+              <Stat textAlign="center">
+                <StatNumber fontSize="2xl" color="purple.500">150+</StatNumber>
+                <StatLabel>Verified Investors</StatLabel>
+              </Stat>
+            </VStack>
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      {/* Featured Assets */}
+      <Container maxW="6xl" py={16}>
+        <VStack spacing={8} mb={12}>
+          <Heading size="xl" textAlign="center">
             Featured Real-World Assets
           </Heading>
-          <Flex
-            direction="row"
-            wrap="wrap"
-            mt="20px"
-            gap="5"
-            justifyContent="space-evenly"
-          >
-            {NFT_CONTRACTS.map((item) => (
-              <Link
-                _hover={{ textDecoration: "none" }}
-                w={300}
-                h={400}
-                key={item.address}
-                href={`/collection/${item.chain.id.toString()}/${item.address}`}
+          <Text fontSize="lg" color={textColor} textAlign="center" maxW="2xl">
+            Explore our curated selection of tokenized assets. Each asset is verified, 
+            compliant, and ready for fractional investment.
+          </Text>
+        </VStack>
+        
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+          {NFT_CONTRACTS.slice(0, 6).map((item) => (
+            <Link
+              key={item.address}
+              href={`/collection/${item.chain.id.toString()}/${item.address}`}
+              _hover={{ textDecoration: "none" }}
+            >
+              <Box
+                bg={cardBg}
+                rounded="xl"
+                overflow="hidden"
+                shadow="lg"
+                transition="all 0.3s ease"
+                _hover={{ transform: "translateY(-4px)", shadow: "xl" }}
               >
-                <Image src={item.thumbnailUrl} />
-                <Text fontSize="large" mt="10px">
-                  {item.title}
-                </Text>
-              </Link>
-            ))}
-          </Flex>
+                <Image 
+                  src={item.thumbnailUrl} 
+                  alt={item.title}
+                  w="full"
+                  h="200px"
+                  objectFit="cover"
+                />
+                <Box p={6}>
+                  <VStack align="start" spacing={3}>
+                    <Badge colorScheme="purple" variant="subtle">
+                      {item.type}
+                    </Badge>
+                    <Heading size="md" noOfLines={2}>
+                      {item.title}
+                    </Heading>
+                    <Text color={textColor} fontSize="sm" noOfLines={2}>
+                      {item.description || "Premium tokenized asset available for fractional investment"}
+                    </Text>
+                    <HStack justify="space-between" w="full">
+                      <Text fontSize="sm" color="purple.500" fontWeight="medium">
+                        Chain: {item.chain.name || "Multi-chain"}
+                      </Text>
+                      <Icon as={FaArrowRight} color="purple.500" />
+                    </HStack>
+                  </VStack>
+                </Box>
+              </Box>
+            </Link>
+          ))}
+        </SimpleGrid>
+        
+        <Flex justify="center" mt={12}>
+          <Button 
+            as={Link} 
+            href="/collection" 
+            size="lg"
+            colorScheme="purple"
+            rightIcon={<FaArrowRight />}
+          >
+            View All Assets
+          </Button>
         </Flex>
-      </Box>
-    </Flex>
+      </Container>
+    </Box>
   );
 }
 

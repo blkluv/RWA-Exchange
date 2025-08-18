@@ -17,6 +17,7 @@ import {
   DrawerOverlay,
   useColorMode,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import { FaRegMoon } from "react-icons/fa";
@@ -57,17 +58,43 @@ export function SideMenu() {
             </Button>
           </DrawerHeader>
           <DrawerBody>
-            <Box>
-              <ConnectButton theme={colorMode} client={client} />
-            </Box>
-            {account && (
-              <Link href="/profile">
-                Profile {ensName ? `(${ensName})` : ""}
+            <VStack spacing={4} align="stretch">
+              <Box>
+                <ConnectButton 
+                  client={client}
+                  theme={colorMode}
+                  connectButton={{
+                    label: "Connect Wallet",
+                  }}
+                />
+              </Box>
+              
+              <Link href="/landing" _hover={{ textDecoration: "none" }} onClick={onClose}>
+                <Button variant="ghost" w="full" justifyContent="flex-start">
+                  About
+                </Button>
               </Link>
-            )}
-            <Box mt={3}>
-              <Link href="/dashboard">Dashboard</Link>
-            </Box>
+              
+              <Link href="/dashboard" _hover={{ textDecoration: "none" }} onClick={onClose}>
+                <Button variant="ghost" w="full" justifyContent="flex-start">
+                  Dashboard
+                </Button>
+              </Link>
+              
+              <Link href="/collection" _hover={{ textDecoration: "none" }} onClick={onClose}>
+                <Button variant="ghost" w="full" justifyContent="flex-start">
+                  Marketplace
+                </Button>
+              </Link>
+              
+              {account && (
+                <Link href="/profile" _hover={{ textDecoration: "none" }} onClick={onClose}>
+                  <Button variant="ghost" w="full" justifyContent="flex-start">
+                    Profile {ensName ? `(${ensName})` : ""}
+                  </Button>
+                </Link>
+              )}
+            </VStack>
           </DrawerBody>
           <DrawerFooter>
             {account && (

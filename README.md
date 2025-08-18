@@ -83,16 +83,12 @@ flowchart TD
 ### 1. Install Dependencies
 ```bash
 npm install
-# or
-yarn install
-# or
-pnpm install
 ```
 
 ### 2. Set Up Environment Variables
 Create a file named `.env.local` in the root of your project and add your thirdweb client ID:
 ```
-NEXT_PUBLIC_TW_CLIENT_ID="<your-thirdweb-client-id>"
+NEXT_PUBLIC_THIRDWEB_CLIENT_ID="your_thirdweb_client_id_here"
 ```
 
 You can get a client ID from the [thirdweb dashboard](https://thirdweb.com/dashboard/settings/api-keys).
@@ -100,13 +96,21 @@ You can get a client ID from the [thirdweb dashboard](https://thirdweb.com/dashb
 ### 3. Run the Development Server
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+### 4. Connect Your Wallet
+- The application supports multiple wallet types through Thirdweb
+- Click "Connect Wallet" in the navigation bar
+- Choose from MetaMask, WalletConnect, Coinbase Wallet, and more
+- For mobile users, use the hamburger menu to access wallet connection
+
+### 5. Explore Features
+- **Homepage**: Overview of available assets and platform statistics
+- **Landing Page**: Detailed information about OneRWA platform
+- **Marketplace**: Browse and search all available tokenized assets
+- **Dashboard**: View your portfolio, holdings, and investment analytics
 
 ### Quick Start (All-in-One)
 
@@ -205,9 +209,29 @@ You can obtain a client ID from the [thirdweb dashboard](https://thirdweb.com/da
 
 ## Troubleshooting
 
-- Ensure your wallet extension (e.g., OneWallet) is installed and unlocked.
-- If contracts are redeployed, remember to update addresses under `src/consts/*`.
-- If Next.js fails to start, clear `.next/` and retry: `rm -rf .next && npm run dev` (Windows: delete `.next` folder manually).
+### Common Issues
+
+#### Wallet Connection Issues
+- **Desktop**: Ensure you have MetaMask, Coinbase Wallet, or another supported wallet extension installed
+- **Mobile**: Use WalletConnect or the built-in browser of your mobile wallet
+- **Connection Fails**: Try refreshing the page and reconnecting
+- **Wrong Network**: The app supports Avalanche Fuji, Polygon Amoy, and Sepolia testnets
+
+#### Build/Runtime Errors
+- **Module not found errors**: Run `npm install` to ensure all dependencies are installed
+- **Environment variable errors**: Ensure `.env.local` exists with valid `NEXT_PUBLIC_THIRDWEB_CLIENT_ID`
+- **Next.js fails to start**: Clear `.next/` folder and retry: `rm -rf .next && npm run dev` (Windows: delete `.next` folder manually)
+- **Scrypt compilation errors**: The project includes webpack configuration to handle this automatically
+
+#### Performance Issues
+- **Slow loading**: The app fetches real NFT metadata which may take time
+- **Network timeouts**: Switch to a different RPC endpoint if needed
+- **High gas fees**: Use testnets for development (Fuji, Amoy, Sepolia)
+
+### Getting Help
+- Check the [thirdweb documentation](https://portal.thirdweb.com/)
+- Join the [thirdweb Discord](https://discord.gg/thirdweb) for community support
+- Review contract addresses in `src/consts/` if using custom deployments
 
 ## Demo
 
@@ -232,5 +256,5 @@ Contributions are welcome! Please:
 
 ## License
 
-MIT © OneRWA Marketplace Contributors
+MIT ©  Contributors
 

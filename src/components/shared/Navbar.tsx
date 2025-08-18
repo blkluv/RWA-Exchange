@@ -12,56 +12,36 @@ import {
   MenuList,
   Image,
   useColorMode,
+  HStack,
+  Text,
 } from "@chakra-ui/react";
 import { blo } from "blo";
 import { FaRegMoon } from "react-icons/fa";
 import { FiUser } from "react-icons/fi";
 import { IoSunny } from "react-icons/io5";
 import { SideMenu } from "./SideMenu";
-import { HarmonyExtension } from "@harmony-js/core";
-import { useEffect, useState } from "react";
-
-declare global {
-  interface Window {
-    onewallet?: any;
-  }
-}
+import { client } from "@/consts/client";
+import {
+  ConnectButton,
+  useActiveAccount,
+  useActiveWallet,
+  useDisconnect,
+} from "thirdweb/react";
 
 export function Navbar() {
-  const [account, setAccount] = useState<any>(null);
-  // Use a permissive type here because HarmonyExtension's type declarations are a namespace in @harmony-js/core
-  // which cannot be used directly as a type parameter. Runtime usage remains the same.
-  const [harmonyExtension, setHarmonyExtension] = useState<any>(null);
-
-  useEffect(() => {
-    const initHarmonyExtension = async () => {
-      if (window.onewallet) {
-        const extension = new HarmonyExtension(window.onewallet);
-        setHarmonyExtension(extension);
-        const loggedInAccount = await extension.login();
-        setAccount(loggedInAccount);
-      }
-    };
-    initHarmonyExtension();
-  }, []);
-
-  const handleLogin = async () => {
-    if (harmonyExtension) {
-      const acc = await harmonyExtension.login();
-      setAccount(acc);
-    }
-  };
+  const account = useActiveAccount();
+  const wallet = useActiveWallet();
+  const { disconnect } = useDisconnect();
 
   const handleLogout = async () => {
-    if (harmonyExtension) {
-      await harmonyExtension.logout();
-      setAccount(null);
+    if (wallet) {
+      await disconnect(wallet);
     }
   };
 
   return (
     <Box py="30px" px={{ base: "20px", lg: "50px" }}>
-      <Flex direction="row" justifyContent="space-between">
+      <Flex direction="row" justifyContent="space-between" align="center">
         <Box my="auto">
           <Heading
             as={Link}
@@ -70,20 +50,45 @@ export function Navbar() {
             bgGradient="linear(to-l, #7928CA, #FF0080)"
             bgClip="text"
             fontWeight="extrabold"
+            size={{ base: "lg", md: "xl" }}
           >
-            OneRWA Marketplace
+            RWA ExChange
           </Heading>
         </Box>
-        <Box display={{ lg: "block", base: "none" }}>
+        
+        {/* Desktop Navigation */}
+        <HStack display={{ lg: "flex", base: "none" }} spacing={4}>
+          <HStack spacing={6}>
+            <Link href="/landing" _hover={{ textDecoration: "none" }}>
+              <Text fontWeight="medium">About</Text>
+            </Link>
+            <Link href="/dashboard" _hover={{ textDecoration: "none" }}>
+              <Text fontWeight="medium">Dashboard</Text>
+            </Link>
+            <Link href="/collection" _hover={{ textDecoration: "none" }}>
+              <Text fontWeight="medium">Marketplace</Text>
+            </Link>
+          </HStack>
+          
           <ToggleThemeButton />
+          
           {account ? (
             <ProfileButton address={account.address} onLogout={handleLogout} />
           ) : (
-            <Button onClick={handleLogin} height="56px">
-              Connect OneWallet
-            </Button>
+            <ConnectButton 
+              client={client}
+              theme="light"
+              connectButton={{
+                label: "Connect Wallet",
+                style: {
+                  height: "56px",
+                  minWidth: "140px",
+                }
+              }}
+            />
           )}
-        </Box>
+        </HStack>
+        
         <SideMenu />
       </Flex>
     </Box>
