@@ -9,6 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MediaRenderer } from "thirdweb/react";
+import { ComplianceBadge } from "@/components/shared/ComplianceBadge";
 
 export function ListingGrid() {
   const { listingsInSelectedCollection, nftContract } = useMarketplaceContext();
@@ -36,6 +37,7 @@ export function ListingGrid() {
           <Flex direction="column">
             <MediaRenderer client={client} src={item.asset.metadata.image} />
             <Text>{item.asset?.metadata?.name ?? "Unknown item"}</Text>
+            <ComplianceBadge verified={isVerified(item.asset.metadata)} />
             <Text>Price</Text>
             <Text>
               {item.currencyValuePerToken.displayValue}{" "}
@@ -46,4 +48,20 @@ export function ListingGrid() {
       ))}
     </SimpleGrid>
   );
+}
+
+function isVerified(metadata: any): boolean {
+  try {
+    const attrs = (metadata?.attributes || []) as Array<any>;
+    const flag = attrs.find(
+      (a) =>
+        (a.trait_type || a.traitType || "").toLowerCase() === "compliance" ||
+        (a.trait_type || a.traitType || "").toLowerCase() === "verified",
+    );
+    if (!flag) return false;
+    const val = String(flag.value || "").toLowerCase();
+    return val === "true" || val === "yes" || val === "verified";
+  } catch {
+    return false;
+  }
 }

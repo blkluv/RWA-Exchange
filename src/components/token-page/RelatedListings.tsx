@@ -1,5 +1,6 @@
 import { client } from "@/consts/client";
 import { useMarketplaceContext } from "@/hooks/useMarketplaceContext";
+import { ComplianceBadge } from "@/components/shared/ComplianceBadge";
 import { Link } from "@chakra-ui/next-js";
 import {
 	AccordionButton,
@@ -31,7 +32,7 @@ export default function RelatedListings({
 			<Text>
 				<AccordionButton>
 					<Box as="span" flex="1" textAlign="left">
-						More from this collections
+						More from this asset pool
 					</Box>
 					<AccordionIcon />
 				</AccordionButton>
@@ -62,6 +63,7 @@ export default function RelatedListings({
 									src={item.asset.metadata.image}
 								/>
 								<Text>{item.asset.metadata?.name ?? "Unknown item"}</Text>
+								<ComplianceBadge verified={isVerified(item.asset.metadata)} />
 								<Text>Price</Text>
 								<Text>
 									{item.currencyValuePerToken.displayValue}{" "}
@@ -74,4 +76,20 @@ export default function RelatedListings({
 			</AccordionPanel>
 		</AccordionItem>
 	);
+}
+
+function isVerified(metadata: any): boolean {
+  try {
+    const attrs = (metadata?.attributes || []) as Array<any>;
+    const flag = attrs.find(
+      (a) =>
+        (a.trait_type || a.traitType || "").toLowerCase() === "compliance" ||
+        (a.trait_type || a.traitType || "").toLowerCase() === "verified",
+    );
+    if (!flag) return false;
+    const val = String(flag.value || "").toLowerCase();
+    return val === "true" || val === "yes" || val === "verified";
+  } catch {
+    return false;
+  }
 }

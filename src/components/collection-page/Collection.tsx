@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useMarketplaceContext } from "@/hooks/useMarketplaceContext";
 import { ListingGrid } from "./ListingGrid";
 import { AllNftsGrid } from "./AllNftsGrid";
+import { SecondaryTrading } from "./SecondaryTrading";
 
 export function Collection() {
   // `0` is Listings, `1` is `Auctions`
@@ -72,7 +73,7 @@ export function Collection() {
             <TabList>
               <Tab>Listings ({listingsInSelectedCollection.length || 0})</Tab>
               <Tab>
-                All items{" "}
+                All Properties{" "}
                 {supplyInfo
                   ? `(${(
                       supplyInfo.endTokenId -
@@ -81,6 +82,7 @@ export function Collection() {
                     ).toString()})`
                   : ""}
               </Tab>
+              <Tab>Secondary Trading</Tab>
               {/* Support for English Auctions coming soon */}
               {/* <Tab>Auctions ({allAuctions?.length || 0})</Tab> */}
             </TabList>
@@ -90,6 +92,7 @@ export function Collection() {
       <Flex direction="column">
         {tabIndex === 0 && <ListingGrid />}
         {tabIndex === 1 && <AllNftsGrid />}
+        {tabIndex === 2 && <SecondaryTrading />}
       </Flex>
     </>
   );

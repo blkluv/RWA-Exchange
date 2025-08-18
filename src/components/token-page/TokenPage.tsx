@@ -28,6 +28,7 @@ import {
 } from "thirdweb/react";
 import { shortenAddress } from "thirdweb/utils";
 import { NftAttributes } from "./NftAttributes";
+import { ComplianceBadge } from "@/components/shared/ComplianceBadge";
 import { CreateListing } from "./CreateListing";
 import { useMarketplaceContext } from "@/hooks/useMarketplaceContext";
 import dynamic from "next/dynamic";
@@ -134,7 +135,7 @@ export function Token(props: Props) {
             </Accordion>
           </Flex>
           <Box w={{ lg: "45vw", base: "90vw" }}>
-            <Text>Collection</Text>
+            <Text>Asset Pool</Text>
             <Flex direction="row" gap="3">
               <Heading>{contractMetadata?.name}</Heading>
               <Link
@@ -147,6 +148,9 @@ export function Token(props: Props) {
             <br />
             <Text># {nft?.id.toString()}</Text>
             <Heading>{nft?.metadata.name}</Heading>
+            {nft?.metadata && (
+              <ComplianceBadge verified={isVerified(nft.metadata)} />
+            )}
             <br />
             {type === "ERC1155" ? (
               <>
@@ -257,7 +261,7 @@ export function Token(props: Props) {
                       </Table>
                     </TableContainer>
                   ) : (
-                    <Text>This item is not listed for sale</Text>
+                    <Text>This property is not listed for sale</Text>
                   )}
                 </AccordionPanel>
               </AccordionItem>
@@ -291,4 +295,20 @@ function getExpiration(endTimeInSeconds: bigint) {
   };
   const formattedDate = futureDate.toLocaleDateString("en-US", options);
   return formattedDate;
+}
+
+function isVerified(metadata: any): boolean {
+  try {
+    const attrs = (metadata?.attributes || []) as Array<any>;
+    const flag = attrs.find(
+      (a) =>
+        (a.trait_type || a.traitType || "").toLowerCase() === "compliance" ||
+        (a.trait_type || a.traitType || "").toLowerCase() === "verified",
+    );
+    if (!flag) return false;
+    const val = String(flag.value || "").toLowerCase();
+    return val === "true" || val === "yes" || val === "verified";
+  } catch {
+    return false;
+  }
 }

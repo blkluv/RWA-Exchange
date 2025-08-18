@@ -136,7 +136,7 @@ export function ProfileSection(props: Props) {
                   href={`/collection/${selectedCollection.chain.id}/${selectedCollection.address}`}
                   color="gray"
                 >
-                  View collection <ExternalLinkIcon mx="2px" />
+                  View asset pool <ExternalLinkIcon mx="2px" />
                 </Link>
               </Flex>
               <SimpleGrid columns={columns} spacing={4} p={4}>
@@ -160,8 +160,8 @@ export function ProfileSection(props: Props) {
                             : ensName
                             ? ensName
                             : shortenAddress(address)}{" "}
-                          {isYou ? "do" : "does"} not own any NFT in this
-                          collection
+                          {isYou ? "do" : "does"} not own any Property in this
+                          asset pool
                         </Text>
                       </Box>
                     )}
@@ -200,7 +200,7 @@ export function ProfileSection(props: Props) {
                       </>
                     ) : (
                       <Box>
-                        You do not have any listing with this collection
+                        You do not have any listing within this asset pool
                       </Box>
                     )}
                   </>
