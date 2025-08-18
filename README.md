@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="https://img.icons8.com/external-wanicon-flat-wanicon/64/external-marketplace-digital-economy-wanicon-flat-wanicon.png" alt="OneRWA Logo" width="80" height="80" />
+  
   
   <h1>OneRWA Marketplace</h1>
   
@@ -46,6 +46,38 @@
 - **Web3 SDK**: thirdweb
 - **Smart Contracts**: Solidity (OpenZeppelin), Hardhat, Ethers v6
 - **State/Data**: @tanstack/react-query
+
+
+## Mermaid Flowchart (Dev + User Flow)
+
+```mermaid
+flowchart TD
+  subgraph Dev[Developer Workflow]
+    A[Clone Repo] --> B[Install Deps]
+    B --> C[Create .env.local\nNEXT_PUBLIC_TW_CLIENT_ID]
+    C --> D{Contracts needed?}
+    D -- Yes --> E[Hardhat Compile/Test]
+    E --> F[Deploy via scripts/deploy.ts]
+    D -- No --> G[Skip]
+    F --> H[Update src/consts/*]
+    G --> H
+    H --> I[Run: npm run dev]
+  end
+
+  subgraph User[End-User Flow]
+    J[Open App / Landing] --> K[Connect OneWallet in Navbar]
+    K --> L{Connected?}
+    L -- Yes --> M[Browse Marketplace]
+    L -- No --> K
+    M --> N[View Token Page]
+    N --> O{Buy / List / Fractionalize}
+    O -- Buy --> P[Purchase via supported token]
+    O -- List --> Q[Create Listing]
+    O -- Fractionalize --> R[Fractionalize Asset]
+  end
+
+  I --> J
+```
 
 ## Getting Started
 
@@ -171,36 +203,6 @@ You can obtain a client ID from the [thirdweb dashboard](https://thirdweb.com/da
 
 6) Connect wallet (OneWallet via navbar) and interact with marketplace pages.
 
-## Mermaid Flowchart (Dev + User Flow)
-
-```mermaid
-flowchart TD
-  subgraph Dev[Developer Workflow]
-    A[Clone Repo] --> B[Install Deps]
-    B --> C[Create .env.local\nNEXT_PUBLIC_TW_CLIENT_ID]
-    C --> D{Contracts needed?}
-    D -- Yes --> E[Hardhat Compile/Test]
-    E --> F[Deploy via scripts/deploy.ts]
-    D -- No --> G[Skip]
-    F --> H[Update src/consts/*]
-    G --> H
-    H --> I[Run: npm run dev]
-  end
-
-  subgraph User[End-User Flow]
-    J[Open App / Landing] --> K[Connect OneWallet in Navbar]
-    K --> L{Connected?}
-    L -- Yes --> M[Browse Marketplace]
-    L -- No --> K
-    M --> N[View Token Page]
-    N --> O{Buy / List / Fractionalize}
-    O -- Buy --> P[Purchase via supported token]
-    O -- List --> Q[Create Listing]
-    O -- Fractionalize --> R[Fractionalize Asset]
-  end
-
-  I --> J
-```
 
 ## Troubleshooting
 
