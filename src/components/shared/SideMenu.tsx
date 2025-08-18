@@ -65,6 +65,9 @@ export function SideMenu() {
                 Profile {ensName ? `(${ensName})` : ""}
               </Link>
             )}
+            <Box mt={3}>
+              <Link href="/dashboard">Dashboard</Link>
+            </Box>
           </DrawerBody>
           <DrawerFooter>
             {account && (

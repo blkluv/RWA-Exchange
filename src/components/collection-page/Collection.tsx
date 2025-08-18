@@ -2,16 +2,19 @@ import { MediaRenderer, useReadContract } from "thirdweb/react";
 import { getNFT as getNFT721 } from "thirdweb/extensions/erc721";
 import { getNFT as getNFT1155 } from "thirdweb/extensions/erc1155";
 import { client } from "@/consts/client";
-import { Box, Flex, Heading, Tab, TabList, Tabs, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Tab, TabList, Tabs, Text, TabPanels, TabPanel, Select } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMarketplaceContext } from "@/hooks/useMarketplaceContext";
 import { ListingGrid } from "./ListingGrid";
 import { AllNftsGrid } from "./AllNftsGrid";
 import { SecondaryTrading } from "./SecondaryTrading";
 
+type Category = "all" | "property" | "carbon";
+
 export function Collection() {
   // `0` is Listings, `1` is `Auctions`
   const [tabIndex, setTabIndex] = useState<number>(0);
+  const [category, setCategory] = useState<Category>("all");
   const {
     type,
     nftContract,
@@ -50,9 +53,25 @@ export function Collection() {
               height: "200px",
             }}
           />
-          <Heading mx="auto">
-            {contractMetadata?.name || "Unknown collection"}
-          </Heading>
+          <Box>
+            <Flex direction={{ base: "column", lg: "row" }} gap={4} alignItems={{ base: "stretch", lg: "center" }}>
+              <Box>
+                <Heading as="h1" bgGradient="linear(to-l, #7928CA, #FF0080)" bgClip="text">
+                  {contractMetadata?.name || "Asset Pool"}
+                </Heading>
+                <Text>
+                  {nftContract.address}
+                </Text>
+              </Box>
+              <Box ml={{ lg: "auto" }} w={{ base: "100%", lg: "280px" }}>
+                <Select value={category} onChange={(e) => setCategory(e.target.value as Category)}>
+                  <option value="all">All Assets</option>
+                  <option value="property">Property</option>
+                  <option value="carbon">Carbon Credits</option>
+                </Select>
+              </Box>
+            </Flex>
+          </Box>
           {contractMetadata?.description && (
             <Text
               maxW={{ lg: "500px", base: "300px" }}
@@ -86,12 +105,18 @@ export function Collection() {
               {/* Support for English Auctions coming soon */}
               {/* <Tab>Auctions ({allAuctions?.length || 0})</Tab> */}
             </TabList>
+            {/* Empty panels to satisfy Tabs type requirements; actual content rendered below */}
+            <TabPanels>
+              <TabPanel p={0} />
+              <TabPanel p={0} />
+              <TabPanel p={0} />
+            </TabPanels>
           </Tabs>
         </Flex>
       </Box>
       <Flex direction="column">
-        {tabIndex === 0 && <ListingGrid />}
-        {tabIndex === 1 && <AllNftsGrid />}
+        {tabIndex === 0 && <ListingGrid category={category} />}
+        {tabIndex === 1 && <AllNftsGrid category={category} />}
         {tabIndex === 2 && <SecondaryTrading />}
       </Flex>
     </>

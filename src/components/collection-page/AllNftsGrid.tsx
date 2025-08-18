@@ -22,7 +22,9 @@ import { getNFTs as getNFTs1155 } from "thirdweb/extensions/erc1155";
 import { getNFTs as getNFTs721 } from "thirdweb/extensions/erc721";
 import { MediaRenderer, useReadContract } from "thirdweb/react";
 
-export function AllNftsGrid() {
+type Category = "all" | "property" | "carbon";
+
+export function AllNftsGrid({ category = "all" }: { category?: Category }) {
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
   const { nftContract, type, supplyInfo } = useMarketplaceContext();
@@ -44,6 +46,44 @@ export function AllNftsGrid() {
         : itemsPerPage;
     pages.push({ start: Number(currentStartTokenId), count: count });
   }
+
+function isInCategory(metadata: any, category: Category): boolean {
+  if (category === "all") return true;
+  try {
+    const lower = Object.fromEntries(
+      Object.entries(metadata || {}).map(([k, v]) => [String(k).toLowerCase(), v])
+    );
+    const direct = String(
+      lower["category"] || lower["asset_type"] || lower["type"] || ""
+    ).toLowerCase();
+    if (direct) {
+      if (category === "carbon") return direct.includes("carbon");
+      if (category === "property")
+        return direct.includes("property") || direct.includes("real estate");
+    }
+    const attrs = (metadata?.attributes || []) as Array<any>;
+    for (const a of attrs) {
+      const t = String(a?.trait_type || a?.traitType || "").toLowerCase();
+      if (["category", "asset_type", "type"].includes(t)) {
+        const v = String(a?.value || "").toLowerCase();
+        if (category === "carbon" && v.includes("carbon")) return true;
+        if (
+          category === "property" &&
+          (v.includes("property") || v.includes("real estate"))
+        )
+          return true;
+      }
+      if (t === "is_carbon") {
+        const v = String(a?.value || "").toLowerCase();
+        if (category === "carbon" && (v === "true" || v === "yes" || v === "1"))
+          return true;
+      }
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
   const { data: allNFTs } = useReadContract(
     type === "ERC1155" ? getNFTs1155 : getNFTs721,
     {
@@ -52,7 +92,10 @@ export function AllNftsGrid() {
       count: pages[currentPageIndex].count,
     }
   );
-  const len = allNFTs?.length ?? 0;
+  const filtered = (allNFTs || []).filter((nft) =>
+    isInCategory(nft?.metadata, category)
+  );
+  const len = filtered.length;
   const columns = useBreakpointValue({
     base: 1,
     sm: Math.min(len, 2),
@@ -65,8 +108,8 @@ export function AllNftsGrid() {
   return (
     <>
       <SimpleGrid columns={columns} spacing={4} p={4} mx="auto" mt="20px">
-        {allNFTs && allNFTs.length > 0 ? (
-          allNFTs.map((item) => (
+        {filtered && filtered.length > 0 ? (
+          filtered.map((item) => (
             <Box
               key={item.id}
               rounded="12px"
