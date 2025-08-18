@@ -32,12 +32,37 @@
 - [Contributing](#contributing)
 - [License](#license)
 
-## Features
-- ✅ **Trade Diverse RWAs**: Buy and sell tokenized assets like real estate, art, and collectibles.
-- 🧩 **Fractional Ownership**: Invest in fractions of high-value assets, making them more accessible.
-- 🛡️ **Compliance Ready**: Built with a focus on security and regulatory compliance.
-- 🌐 **Multi-Chain Support**: Trade assets across multiple blockchain networks.
-- 💱 **Custom Currencies**: Use various ERC20 tokens for transactions.
+## ✨ Enhanced Features
+
+### 🎨 **Professional UI/UX**
+- **Custom Typography**: Outfit for headings, Inter for body text, Space Grotesk for code
+- **Smooth Animations**: Framer Motion powered transitions and micro-interactions
+- **Modern Design**: Gradient backgrounds, glass morphism effects, and professional layouts
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+
+### 🛒 **Complete Trading System**
+- **Advanced Buy Interface**: Modal-based purchase system with quantity selection
+- **Real-time Pricing**: Dynamic price calculations and total cost display
+- **Transaction Management**: Comprehensive error handling and success notifications
+- **Multi-token Support**: Native tokens and ERC20 token payments
+
+### 💳 **Enhanced Wallet Integration**
+- **Universal Wallet Support**: MetaMask, WalletConnect, Coinbase Wallet, and more
+- **Seamless Connection**: One-click wallet connection with automatic chain switching
+- **Mobile Optimized**: Perfect wallet integration for mobile devices
+- **Security First**: Secure transaction handling with user confirmations
+
+### 🔍 **Advanced Marketplace**
+- **Smart Search**: Real-time search with filtering by asset type and category
+- **Professional Cards**: Enhanced asset cards with pricing, APY, and investment details
+- **Category Filtering**: Filter by Real Estate, Carbon Credits, and more
+- **Investment Analytics**: Expected returns and investment minimums displayed
+
+### 📊 **Comprehensive Dashboard**
+- **Portfolio Analytics**: Track your investments with visual charts and statistics
+- **Asset Categorization**: Organized view of your holdings by asset type
+- **Performance Metrics**: ROI tracking and investment history
+- **Multi-chain Portfolio**: Unified view across all supported networks
 
 ## Tech Stack
 

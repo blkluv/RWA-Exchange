@@ -95,7 +95,7 @@ export default function LandingPage() {
         <Container maxW="7xl">
           <VStack spacing={8} textAlign="center">
             <Badge colorScheme="purple" variant="solid" px={4} py={2} rounded="full">
-              🚀 Revolutionary RWA Platform
+              Revolutionary RWA Platform
             </Badge>
             
             <Heading 
@@ -293,20 +293,107 @@ export default function LandingPage() {
         </SimpleGrid>
       </Section>
 
-      {/* CTA */}
-      <Section>
-        <Flex direction={{ base: "column", md: "row" }} align="center" justify="space-between" gap={4}>
-          <Heading size="lg">Ready to demo OneRWA?</Heading>
-          <Flex gap={3}>
-            <Button as={Link} href="/collection" colorScheme="blue">
-              Launch Marketplace
-            </Button>
-            <Button as={Link} href="/dashboard" variant="outline">
-              Investor Dashboard
-            </Button>
-          </Flex>
-        </Flex>
-      </Section>
+      {/* Enhanced CTA Section */}
+      <Box 
+        py={24} 
+        bg={useColorModeValue(
+          "linear-gradient(135deg, purple.500 0%, blue.600 100%)",
+          "linear-gradient(135deg, purple.600 0%, blue.700 100%)"
+        )}
+        color="white"
+        position="relative"
+        overflow="hidden"
+      >
+        {/* Animated Background Elements */}
+        <Box
+          position="absolute"
+          top="20%"
+          left="10%"
+          w="120px"
+          h="120px"
+          borderRadius="full"
+          bg="whiteAlpha.100"
+          animation={`${float} 8s ease-in-out infinite`}
+        />
+        <Box
+          position="absolute"
+          bottom="20%"
+          right="15%"
+          w="80px"
+          h="80px"
+          borderRadius="full"
+          bg="whiteAlpha.150"
+          animation={`${float} 6s ease-in-out infinite reverse`}
+        />
+        
+        <Container maxW="6xl" position="relative" zIndex={1}>
+          <VStack spacing={8} textAlign="center">
+            <Heading 
+              size="2xl" 
+              fontFamily="Outfit"
+              fontWeight="800"
+              maxW="4xl"
+            >
+              Ready to Revolutionize Your Investment Portfolio?
+            </Heading>
+            
+            <Text 
+              fontSize="xl" 
+              maxW="3xl"
+              opacity={0.9}
+              lineHeight="1.8"
+            >
+              Join thousands of investors who are already building wealth through 
+              tokenized real-world assets. Start your journey today.
+            </Text>
+            
+            <HStack spacing={6} pt={4} flexWrap="wrap" justify="center">
+              <Button 
+                as={Link} 
+                href="/" 
+                size="xl"
+                bg="white"
+                color="purple.600"
+                fontFamily="Outfit"
+                fontWeight="700"
+                px={12}
+                py={8}
+                fontSize="lg"
+                _hover={{ 
+                  transform: "translateY(-3px) scale(1.05)",
+                  boxShadow: "2xl",
+                  bg: "purple.50"
+                }}
+                transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+              >
+                Launch Marketplace
+              </Button>
+              <Button 
+                as={Link} 
+                href="/dashboard" 
+                size="xl"
+                variant="outline"
+                borderColor="white"
+                borderWidth="2px"
+                color="white"
+                fontFamily="Outfit"
+                fontWeight="600"
+                px={12}
+                py={8}
+                fontSize="lg"
+                _hover={{ 
+                  bg: "whiteAlpha.200",
+                  transform: "translateY(-3px)",
+                  borderColor: "purple.200"
+                }}
+                transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+              >
+                View Dashboard
+              </Button>
+            </HStack>
+          </VStack>
+        </Container>
+      </Box>
     </Box>
   );
 }

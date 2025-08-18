@@ -19,8 +19,32 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  keyframes,
+  Card,
+  CardBody,
 } from "@chakra-ui/react";
-import { FaArrowRight, FaChartLine, FaGlobe, FaShieldAlt } from "react-icons/fa";
+import { FaArrowRight, FaChartLine, FaGlobe, FaShieldAlt, FaStar, FaTrendingUp } from "react-icons/fa";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+const MotionCard = motion(Card);
+
+
+
+const float = keyframes`
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+`;
+
+const pulse = keyframes`
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+`;
+
+const shimmer = keyframes`
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+`;
 
 export default function Home() {
   const gradient = useColorModeValue(
@@ -29,157 +53,393 @@ export default function Home() {
   );
   const cardBg = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.600", "gray.300");
+  const glowColor = useColorModeValue("purple.500", "purple.300");
 
   return (
     <Box>
-      {/* Hero Section */}
+      {/* Hero Section with Advanced Animations */}
       <Box
         bg={gradient}
-        py={{ base: 16, md: 24 }}
+        py={{ base: 20, md: 32 }}
         color="white"
         textAlign="center"
+        position="relative"
+        overflow="hidden"
       >
-        <Container maxW="6xl">
-          <VStack spacing={6}>
-            <Badge colorScheme="purple" variant="solid" px={4} py={2} rounded="full">
-              🌟 Live Marketplace
-            </Badge>
-            
-            <Heading size={{ base: "xl", md: "3xl" }} fontWeight="bold">
-              Invest in Real-World Assets
-            </Heading>
-            
-            <Text fontSize={{ base: "lg", md: "xl" }} maxW="2xl" opacity={0.9}>
-              Discover tokenized real estate, art, commodities, and more. 
-              Start with fractional ownership from just $100.
-            </Text>
-            
-            <HStack spacing={4} pt={4}>
-              <Button 
-                as={Link} 
-                href="/landing" 
-                size="lg"
-                colorScheme="white"
-                variant="solid"
-                color="purple.600"
-                rightIcon={<FaArrowRight />}
+        {/* Animated Background Elements */}
+        <Box
+          position="absolute"
+          top="10%"
+          left="10%"
+          w="100px"
+          h="100px"
+          borderRadius="full"
+          bg="whiteAlpha.100"
+          animation={`${float} 6s ease-in-out infinite`}
+        />
+        <Box
+          position="absolute"
+          top="60%"
+          right="15%"
+          w="60px"
+          h="60px"
+          borderRadius="full"
+          bg="whiteAlpha.150"
+          animation={`${float} 4s ease-in-out infinite reverse`}
+        />
+        
+        <Container maxW="7xl" position="relative" zIndex={1}>
+          <MotionBox
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <VStack spacing={8}>
+              <MotionBox
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
               >
-                Learn More
-              </Button>
-              <Button 
-                as={Link} 
-                href="/dashboard" 
-                size="lg"
-                variant="outline"
-                borderColor="white"
-                color="white"
-                _hover={{ bg: "whiteAlpha.200" }}
+                <Badge 
+                  colorScheme="purple" 
+                  variant="solid" 
+                  px={6} 
+                  py={3} 
+                  rounded="full"
+                  fontSize="md"
+                  fontFamily="Outfit"
+                  fontWeight="600"
+                  boxShadow="glow"
+                >
+                  Revolutionary RWA Platform
+                </Badge>
+              </MotionBox>
+              
+              <MotionBox
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
               >
-                View Dashboard
-              </Button>
-            </HStack>
-          </VStack>
+                <Heading 
+                  size={{ base: "2xl", md: "4xl" }} 
+                  fontFamily="Outfit"
+                  fontWeight="800"
+                  lineHeight="1.1"
+                  bgGradient="linear(to-r, white, purple.200)"
+                  bgClip="text"
+                  maxW="5xl"
+                >
+                  Democratize Real-World Asset Investment
+                </Heading>
+              </MotionBox>
+              
+              <MotionBox
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+              >
+                <Text 
+                  fontSize={{ base: "lg", md: "xl" }} 
+                  maxW="3xl" 
+                  opacity={0.9}
+                  fontFamily="Inter"
+                  lineHeight="1.8"
+                >
+                  Experience the future of investment with tokenized real estate, art, and commodities. 
+                  Start your journey with fractional ownership from just $100.
+                </Text>
+              </MotionBox>
+              
+              <MotionBox
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+              >
+                <HStack spacing={6} pt={6} flexWrap="wrap" justify="center">
+                  <Button 
+                    as={Link} 
+                    href="/collection" 
+                    size="lg"
+                    bg="white"
+                    color="purple.600"
+                    fontFamily="Outfit"
+                    fontWeight="700"
+                    px={8}
+                    py={6}
+                    rightIcon={<FaArrowRight />}
+                    _hover={{ 
+                      transform: "translateY(-3px) scale(1.05)",
+                      boxShadow: "glowLg",
+                      bg: "purple.50"
+                    }}
+                    transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                  >
+                    Explore Marketplace
+                  </Button>
+                  <Button 
+                    as={Link} 
+                    href="/dashboard" 
+                    size="lg"
+                    variant="outline"
+                    borderColor="white"
+                    borderWidth="2px"
+                    color="white"
+                    fontFamily="Outfit"
+                    fontWeight="600"
+                    px={8}
+                    py={6}
+                    _hover={{ 
+                      bg: "whiteAlpha.200",
+                      transform: "translateY(-3px)",
+                      borderColor: "purple.200"
+                    }}
+                    transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                  >
+                    View Dashboard
+                  </Button>
+                </HStack>
+              </MotionBox>
+            </VStack>
+          </MotionBox>
         </Container>
       </Box>
 
-      {/* Quick Stats */}
-      <Box py={12} bg={useColorModeValue("gray.50", "gray.900")}>
-        <Container maxW="6xl">
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-            <VStack>
-              <Icon as={FaChartLine} w={8} h={8} color="purple.500" />
-              <Stat textAlign="center">
-                <StatNumber fontSize="2xl" color="purple.500">$2.5M+</StatNumber>
-                <StatLabel>Total Value Locked</StatLabel>
-              </Stat>
-            </VStack>
-            <VStack>
-              <Icon as={FaGlobe} w={8} h={8} color="purple.500" />
-              <Stat textAlign="center">
-                <StatNumber fontSize="2xl" color="purple.500">25+</StatNumber>
-                <StatLabel>Asset Categories</StatLabel>
-              </Stat>
-            </VStack>
-            <VStack>
-              <Icon as={FaShieldAlt} w={8} h={8} color="purple.500" />
-              <Stat textAlign="center">
-                <StatNumber fontSize="2xl" color="purple.500">150+</StatNumber>
-                <StatLabel>Verified Investors</StatLabel>
-              </Stat>
-            </VStack>
+      {/* Animated Stats Section */}
+      <Box py={20} bg={useColorModeValue("gray.50", "gray.900")} position="relative">
+        <Container maxW="7xl">
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={12}>
+            {[
+              { icon: FaChartLine, value: "$2.5M+", label: "Total Value Locked", color: "blue" },
+              { icon: FaGlobe, value: "25+", label: "Asset Categories", color: "green" },
+              { icon: FaShieldAlt, value: "150+", label: "Verified Investors", color: "purple" }
+            ].map((stat, index) => (
+              <MotionBox
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <VStack 
+                  spacing={6} 
+                  p={8} 
+                  bg={cardBg} 
+                  rounded="2xl" 
+                  shadow="lg"
+                  _hover={{ 
+                    transform: "translateY(-5px)",
+                    shadow: "xl"
+                  }}
+                  transition="all 0.3s ease"
+                >
+                  <Box
+                    p={4}
+                    bg={`${stat.color}.50`}
+                    rounded="full"
+                    animation={`${pulse} 2s ease-in-out infinite`}
+                  >
+                    <Icon as={stat.icon} w={10} h={10} color={`${stat.color}.500`} />
+                  </Box>
+                  <Stat textAlign="center">
+                    <StatNumber 
+                      fontSize="4xl" 
+                      fontFamily="Outfit"
+                      fontWeight="800"
+                      color={`${stat.color}.500`}
+                      bgGradient={`linear(to-r, ${stat.color}.400, ${stat.color}.600)`}
+                      bgClip="text"
+                    >
+                      {stat.value}
+                    </StatNumber>
+                    <StatLabel 
+                      fontSize="lg" 
+                      fontFamily="Inter"
+                      fontWeight="500"
+                      color={textColor}
+                    >
+                      {stat.label}
+                    </StatLabel>
+                  </Stat>
+                </VStack>
+              </MotionBox>
+            ))}
           </SimpleGrid>
         </Container>
       </Box>
 
-      {/* Featured Assets */}
-      <Container maxW="6xl" py={16}>
-        <VStack spacing={8} mb={12}>
-          <Heading size="xl" textAlign="center">
-            Featured Real-World Assets
-          </Heading>
-          <Text fontSize="lg" color={textColor} textAlign="center" maxW="2xl">
-            Explore our curated selection of tokenized assets. Each asset is verified, 
-            compliant, and ready for fractional investment.
-          </Text>
-        </VStack>
-        
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-          {NFT_CONTRACTS.slice(0, 6).map((item) => (
-            <Link
-              key={item.address}
-              href={`/collection/${item.chain.id.toString()}/${item.address}`}
-              _hover={{ textDecoration: "none" }}
+      {/* Featured Assets with Enhanced Animations */}
+      <Container maxW="7xl" py={24}>
+        <MotionBox
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <VStack spacing={12} mb={16}>
+            <Heading 
+              size="2xl" 
+              textAlign="center"
+              fontFamily="Outfit"
+              fontWeight="800"
+              bgGradient="linear(to-r, purple.400, blue.500)"
+              bgClip="text"
             >
-              <Box
-                bg={cardBg}
-                rounded="xl"
-                overflow="hidden"
-                shadow="lg"
-                transition="all 0.3s ease"
-                _hover={{ transform: "translateY(-4px)", shadow: "xl" }}
-              >
+              Featured Real-World Assets
+            </Heading>
+            <Text 
+              fontSize="xl" 
+              color={textColor} 
+              textAlign="center" 
+              maxW="3xl"
+              fontFamily="Inter"
+              lineHeight="1.8"
+            >
+              Discover premium tokenized assets with verified ownership, regulatory compliance, 
+              and instant liquidity. Start investing with as little as $100.
+            </Text>
+          </VStack>
+        </MotionBox>
+        
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
+          {NFT_CONTRACTS.slice(0, 6).map((item, index) => (
+            <MotionCard
+              key={item.address}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.6 }}
+              viewport={{ once: true }}
+              whileHover={{ 
+                y: -8,
+                transition: { duration: 0.3 }
+              }}
+              bg={cardBg}
+              rounded="2xl"
+              overflow="hidden"
+              shadow="lg"
+              _hover={{ shadow: "2xl" }}
+              position="relative"
+              cursor="pointer"
+            >
+              <Box position="relative" overflow="hidden">
                 <Image 
                   src={item.thumbnailUrl} 
                   alt={item.title}
                   w="full"
-                  h="200px"
+                  h="240px"
                   objectFit="cover"
+                  transition="transform 0.3s ease"
+                  _hover={{ transform: "scale(1.05)" }}
                 />
-                <Box p={6}>
-                  <VStack align="start" spacing={3}>
-                    <Badge colorScheme="purple" variant="subtle">
-                      {item.type}
-                    </Badge>
-                    <Heading size="md" noOfLines={2}>
-                      {item.title}
-                    </Heading>
-                    <Text color={textColor} fontSize="sm" noOfLines={2}>
-                      {item.description || "Premium tokenized asset available for fractional investment"}
-                    </Text>
-                    <HStack justify="space-between" w="full">
-                      <Text fontSize="sm" color="purple.500" fontWeight="medium">
-                        Chain: {item.chain.name || "Multi-chain"}
-                      </Text>
-                      <Icon as={FaArrowRight} color="purple.500" />
-                    </HStack>
-                  </VStack>
+                <Box
+                  position="absolute"
+                  top={4}
+                  right={4}
+                  bg="whiteAlpha.900"
+                  px={3}
+                  py={1}
+                  rounded="full"
+                  backdropFilter="blur(10px)"
+                >
+                  <Badge colorScheme="purple" variant="subtle" fontSize="xs">
+                    {item.type}
+                  </Badge>
                 </Box>
               </Box>
-            </Link>
+              
+              <CardBody p={6}>
+                <VStack align="start" spacing={4}>
+                  <Heading 
+                    size="md" 
+                    noOfLines={2}
+                    fontFamily="Outfit"
+                    fontWeight="700"
+                  >
+                    {item.title}
+                  </Heading>
+                  
+                  <Text 
+                    color={textColor} 
+                    fontSize="sm" 
+                    noOfLines={3}
+                    lineHeight="1.6"
+                  >
+                    {item.description || "Premium tokenized asset with verified ownership and regulatory compliance. Perfect for fractional investment opportunities."}
+                  </Text>
+                  
+                  <HStack justify="space-between" w="full" pt={2}>
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="xs" color="gray.500" fontWeight="500">
+                        Starting from
+                      </Text>
+                      <Text fontSize="lg" fontWeight="700" color="purple.500" fontFamily="Outfit">
+                        $100
+                      </Text>
+                    </VStack>
+                    <Badge colorScheme="green" variant="subtle" px={3} py={1}>
+                      {item.chain.name || "Multi-chain"}
+                    </Badge>
+                  </HStack>
+                  
+                  <HStack spacing={3} w="full" pt={2}>
+                    <Button
+                      as={Link}
+                      href={`/collection/${item.chain.id.toString()}/${item.address}`}
+                      size="sm"
+                      variant="outline"
+                      colorScheme="purple"
+                      flex={1}
+                      fontFamily="Outfit"
+                      fontWeight="600"
+                    >
+                      View Details
+                    </Button>
+                    <Button
+                      as={Link}
+                      href={`/collection/${item.chain.id.toString()}/${item.address}?action=buy`}
+                      size="sm"
+                      colorScheme="purple"
+                      flex={1}
+                      fontFamily="Outfit"
+                      fontWeight="600"
+                      rightIcon={<FaArrowRight />}
+                    >
+                      Buy Now
+                    </Button>
+                  </HStack>
+                </VStack>
+              </CardBody>
+            </MotionCard>
           ))}
         </SimpleGrid>
         
-        <Flex justify="center" mt={12}>
-          <Button 
-            as={Link} 
-            href="/collection" 
-            size="lg"
-            colorScheme="purple"
-            rightIcon={<FaArrowRight />}
-          >
-            View All Assets
-          </Button>
-        </Flex>
+        <MotionBox
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <Flex justify="center" mt={16}>
+            <Button 
+              as={Link} 
+              href="/collection" 
+              size="xl"
+              colorScheme="purple"
+              px={12}
+              py={8}
+              fontSize="lg"
+              fontFamily="Outfit"
+              fontWeight="700"
+              rightIcon={<FaArrowRight />}
+              _hover={{
+                transform: "translateY(-3px) scale(1.05)",
+                boxShadow: "glowLg"
+              }}
+              transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+            >
+              Explore All Assets
+            </Button>
+          </Flex>
+        </MotionBox>
       </Container>
     </Box>
   );

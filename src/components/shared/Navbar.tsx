@@ -43,19 +43,21 @@ export function Navbar() {
     <Box py="16px" px={{ base: "20px", lg: "50px" }}>
       <Flex direction="row" justifyContent="space-between" align="center">
         <Box my="auto">
-          <Heading
-            as={Link}
-            href="/"
-            _hover={{ textDecoration: "none" }}
-            bgGradient="linear(to-l, #7928CA, #FF0080)"
-            bgClip="text"
-            fontWeight="extrabold"
-            size={{ base: "md", md: "lg" }}
-          >
-            RWA ExChange
-          </Heading>
+        <Heading
+        as={Link}
+        href="/"
+        _hover={{ textDecoration: "none" }}
+        color="purple.600"   // nice purple shade
+        fontFamily="'Poppins', sans-serif" // unique, modern font
+        fontWeight="extrabold"
+        letterSpacing="wide"
+        size={{ base: "md", md: "lg" }}
+      >
+        RWA EXCHANGE
+</Heading>
+
         </Box>
-        
+
         {/* Desktop Navigation */}
         <HStack display={{ lg: "flex", base: "none" }} spacing={4}>
           <HStack spacing={6}>
@@ -69,13 +71,13 @@ export function Navbar() {
               <Text fontWeight="medium" fontSize="sm">Marketplace</Text>
             </Link>
           </HStack>
-          
+
           <ToggleThemeButton />
-          
+
           {account ? (
             <ProfileButton address={account.address} onLogout={handleLogout} />
           ) : (
-            <ConnectButton 
+            <ConnectButton
               client={client}
               theme="light"
               connectButton={{
@@ -89,7 +91,7 @@ export function Navbar() {
             />
           )}
         </HStack>
-        
+
         <SideMenu />
       </Flex>
     </Box>
