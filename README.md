@@ -1,14 +1,51 @@
 
-<h1 align="center">OneRWA Marketplace</h1>
+<div align="center">
+  <img src="https://img.icons8.com/external-wanicon-flat-wanicon/64/external-marketplace-digital-economy-wanicon-flat-wanicon.png" alt="OneRWA Logo" width="80" height="80" />
+  
+  <h1>OneRWA Marketplace</h1>
+  
+  <p><strong>A marketplace for tokenized Real-World Assets (RWA) built with thirdweb.</strong></p>
+  
+  <p>
+    <a href="https://nextjs.org/" target="_blank"><img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" alt="Next.js" /></a>
+    <a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
+    <a href="https://hardhat.org/" target="_blank"><img src="https://img.shields.io/badge/Hardhat-3-FFEA00?logo=ethereum&logoColor=black" alt="Hardhat" /></a>
+    <a href="https://chakra-ui.com/" target="_blank"><img src="https://img.shields.io/badge/Chakra%20UI-2-319795?logo=chakraui&logoColor=white" alt="Chakra UI" /></a>
+    <a href="https://thirdweb.com/" target="_blank"><img src="https://img.shields.io/badge/thirdweb-5-2D2D2D?logo=web3.js&logoColor=white" alt="thirdweb" /></a>
+  </p>
+</div>
 
-<p align="center"><strong>A marketplace for tokenized Real-World Assets (RWA) built with thirdweb.</strong></p>
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Scripts](#scripts)
+- [Environment](#environment)
+- [Workflow](#workflow)
+- [Mermaid Flowchart (Dev + User Flow)](#mermaid-flowchart-dev--user-flow)
+- [Demo](#demo)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
-- **Trade Diverse Real-World Assets**: Buy and sell tokenized assets like real estate, art, and collectibles.
-- **Fractional Ownership**: Invest in fractions of high-value assets, making them more accessible.
-- **Compliance Ready**: Built with a focus on security and regulatory compliance.
-- **Multi-Chain Support**: Trade assets across multiple blockchain networks.
-- **Custom Currencies**: Use various ERC20 tokens for transactions.
+- ✅ **Trade Diverse RWAs**: Buy and sell tokenized assets like real estate, art, and collectibles.
+- 🧩 **Fractional Ownership**: Invest in fractions of high-value assets, making them more accessible.
+- 🛡️ **Compliance Ready**: Built with a focus on security and regulatory compliance.
+- 🌐 **Multi-Chain Support**: Trade assets across multiple blockchain networks.
+- 💱 **Custom Currencies**: Use various ERC20 tokens for transactions.
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React 18, TypeScript, Chakra UI
+- **Web3 SDK**: thirdweb
+- **Smart Contracts**: Solidity (OpenZeppelin), Hardhat, Ethers v6
+- **State/Data**: @tanstack/react-query
 
 ## Getting Started
 
@@ -39,6 +76,19 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+### Quick Start (All-in-One)
+
+```bash
+# 1) Install
+npm install
+
+# 2) Configure env
+cp .env.example .env.local  # then edit .env.local
+
+# 3) Run
+npm run dev
+```
 
 ## Customize Your Marketplace
 
@@ -157,4 +207,29 @@ flowchart TD
 - Ensure your wallet extension (e.g., OneWallet) is installed and unlocked.
 - If contracts are redeployed, remember to update addresses under `src/consts/*`.
 - If Next.js fails to start, clear `.next/` and retry: `rm -rf .next && npm run dev` (Windows: delete `.next` folder manually).
+
+## Demo
+
+- Screenshots or GIFs
+  - Landing Page: `src/app/landing/page.tsx`
+  - Token Page and Listing Flow: `src/components/token-page/*`
+  
+Add your media under `public/` and embed here:
+
+```md
+![Landing](public/landing.png)
+![Marketplace](public/marketplace.png)
+```
+
+## Contributing
+
+Contributions are welcome! Please:
+
+- Fork the repo and create a feature branch.
+- Follow existing code style and run `npm run lint`.
+- Open a PR with a clear description and screenshots if UI changes.
+
+## License
+
+MIT © OneRWA Marketplace Contributors
 
