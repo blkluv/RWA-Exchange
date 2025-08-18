@@ -3,7 +3,7 @@
 
   <h1>OneRWA Marketplace</h1>
   
-  <p><strong>A marketplace for tokenized Real-World Assets (RWA) built with thirdweb.</strong></p>
+  <p><strong>A decentralized marketplace for tokenized Real-World Assets (RWA) with NFT fractionalization capabilities.</strong></p>
   
   <p>
     <a href="https://nextjs.org/" target="_blank"><img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" alt="Next.js" /></a>
@@ -64,12 +64,32 @@
 - **Performance Metrics**: ROI tracking and investment history
 - **Multi-chain Portfolio**: Unified view across all supported networks
 
+## 🏗️ Smart Contracts
+
+This project includes three core smart contracts for RWA tokenization and fractionalization:
+
+### **PropertyNFT.sol**
+- ERC721 contract for minting property-backed NFTs
+- Owner-controlled minting with metadata URI support
+- Represents unique real-world assets as non-fungible tokens
+
+### **Fractionalizer.sol**
+- Core contract for fractionalizing PropertyNFTs into ERC20 tokens
+- Allows NFT owners to split ownership into tradeable fractions
+- Enables redemption when all fractions are collected by one owner
+
+### **Fraction.sol**
+- ERC20 token representing fractional ownership of an NFT
+- Minted by the Fractionalizer contract
+- Burnable tokens for NFT redemption process
+
 ## Tech Stack
 
 - **Frontend**: Next.js 14, React 18, TypeScript, Chakra UI
-- **Web3 SDK**: thirdweb
-- **Smart Contracts**: Solidity (OpenZeppelin), Hardhat, Ethers v6
-- **State/Data**: @tanstack/react-query
+- **Web3 SDK**: thirdweb v5
+- **Smart Contracts**: Solidity 0.8.24, OpenZeppelin v5.4.0, Hardhat v3
+- **State Management**: @tanstack/react-query
+- **Styling**: Framer Motion, Chakra UI with custom themes
 
 
 ## Dev + User Flow
@@ -111,7 +131,12 @@ npm install
 ```
 
 ### 2. Set Up Environment Variables
-Create a file named `.env.local` in the root of your project and add your thirdweb client ID:
+Copy the example environment file and configure your thirdweb client ID:
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` and add your thirdweb client ID:
 ```
 NEXT_PUBLIC_THIRDWEB_CLIENT_ID="your_thirdweb_client_id_here"
 ```
