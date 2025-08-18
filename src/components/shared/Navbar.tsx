@@ -29,7 +29,9 @@ declare global {
 
 export function Navbar() {
   const [account, setAccount] = useState<any>(null);
-  const [harmonyExtension, setHarmonyExtension] = useState<HarmonyExtension | null>(null);
+  // Use a permissive type here because HarmonyExtension's type declarations are a namespace in @harmony-js/core
+  // which cannot be used directly as a type parameter. Runtime usage remains the same.
+  const [harmonyExtension, setHarmonyExtension] = useState<any>(null);
 
   useEffect(() => {
     const initHarmonyExtension = async () => {

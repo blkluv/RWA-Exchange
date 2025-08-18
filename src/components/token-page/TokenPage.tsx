@@ -94,6 +94,20 @@ export function Token(props: Props) {
   const ownedByYou =
     nft?.owner?.toLowerCase() === account?.address.toLowerCase();
 
+  // Normalize-check for attributes (can be array or object depending on metadata source)
+  const attributes =
+    (nft?.metadata?.attributes as
+      | Record<string, unknown>
+      | Record<string, unknown>[]
+      | undefined) ?? undefined;
+  const hasAttributes = (() => {
+    if (!attributes) return false;
+    if (Array.isArray(attributes)) return attributes.length > 0;
+    if (typeof attributes === "object")
+      return Object.keys(attributes as Record<string, unknown>).length > 0;
+    return false;
+  })();
+
   return (
     <Flex direction="column">
       <Box mt="24px" mx="auto">
@@ -126,9 +140,8 @@ export function Token(props: Props) {
               )}
 
               {nft?.metadata?.attributes &&
-                // @ts-ignore TODO FIx later
-                nft?.metadata?.attributes.length > 0 && (
-                  <NftAttributes attributes={nft.metadata.attributes} />
+                hasAttributes && (
+                  <NftAttributes attributes={attributes!} />
                 )}
 
               {nft && <NftDetails nft={nft} />}
