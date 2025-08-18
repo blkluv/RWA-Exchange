@@ -59,8 +59,6 @@ export function Navbar() {
     }
   };
 
-  const { colorMode, toggleColorMode } = useColorMode();
-
   return (
     <Box py="30px" px={{ base: "20px", lg: "50px" }}>
       <Flex direction="row" justifyContent="space-between">
