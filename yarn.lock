@@ -1451,7 +1451,7 @@
     hmac-drbg "^1.0.1"
     js-sha3 "^0.8.0"
     pbkdf2 "^3.0.17"
-    scrypt-shim "github:web3-js/scrypt-shim"
+    scrypt-shim "https://github.com/web3-js/scrypt-shim.git"
     uuid "^3.3.2"
 
 "@harmony-js/network@0.1.56":
@@ -7073,7 +7073,7 @@ scrypt-js@^3.0.0, scrypt-js@^3.0.1:
 
 "scrypt-shim@github:web3-js/scrypt-shim":
   version "0.1.0"
-  resolved "git+ssh://git@github.com/web3-js/scrypt-shim.git#aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"
+  resolved "https://github.com/web3-js/scrypt-shim.git#aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"
   dependencies:
     scryptsy "^2.1.0"
     semver "^6.3.0"
