@@ -23,8 +23,7 @@ import {
   Card,
   CardBody,
 } from "@chakra-ui/react";
-import { FaArrowRight, FaChartLine, FaGlobe, FaShieldAlt, FaStar } from "react-icons/fa";
-import { FaTrendingUp } from "react-icons/fa6";
+import { FaArrowRight, FaChartLine, FaGlobe, FaShieldAlt, FaStar, FaArrowUp } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const MotionBox = motion(Box);
