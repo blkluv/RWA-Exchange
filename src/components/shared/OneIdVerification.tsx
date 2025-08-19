@@ -6,6 +6,7 @@ import {
   useColorModeValue,
   Spinner,
   HStack,
+  VStack,
   Text,
   Badge
 } from '@chakra-ui/react';
