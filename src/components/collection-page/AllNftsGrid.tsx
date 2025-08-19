@@ -101,7 +101,90 @@ function isInCategory(metadata: any, category: Category): boolean {
       },
     }
   );
-  const filtered = (allNFTs || []).filter((nft) =>
+  // Demo NFTs for when no real NFTs are available
+  const demoNFTs = [
+    {
+      id: 1n,
+      metadata: {
+        name: "Luxury Downtown Apartment",
+        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=400&fit=crop",
+        attributes: [
+          { trait_type: "category", value: "property" },
+          { trait_type: "location", value: "New York, NY" },
+          { trait_type: "size", value: "1,200 sq ft" },
+          { trait_type: "compliance", value: "verified" }
+        ]
+      }
+    },
+    {
+      id: 2n,
+      metadata: {
+        name: "Carbon Credit Portfolio",
+        image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop",
+        attributes: [
+          { trait_type: "category", value: "carbon" },
+          { trait_type: "type", value: "Forest Conservation" },
+          { trait_type: "tons_co2", value: "500" },
+          { trait_type: "compliance", value: "verified" }
+        ]
+      }
+    },
+    {
+      id: 3n,
+      metadata: {
+        name: "Commercial Real Estate",
+        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=400&fit=crop",
+        attributes: [
+          { trait_type: "category", value: "property" },
+          { trait_type: "location", value: "San Francisco, CA" },
+          { trait_type: "size", value: "5,000 sq ft" },
+          { trait_type: "compliance", value: "verified" }
+        ]
+      }
+    },
+    {
+      id: 4n,
+      metadata: {
+        name: "Renewable Energy Credits",
+        image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=400&fit=crop",
+        attributes: [
+          { trait_type: "category", value: "carbon" },
+          { trait_type: "type", value: "Solar Energy" },
+          { trait_type: "mwh", value: "1000" },
+          { trait_type: "compliance", value: "verified" }
+        ]
+      }
+    },
+    {
+      id: 5n,
+      metadata: {
+        name: "Beachfront Villa",
+        image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=400&fit=crop",
+        attributes: [
+          { trait_type: "category", value: "property" },
+          { trait_type: "location", value: "Miami, FL" },
+          { trait_type: "size", value: "3,500 sq ft" },
+          { trait_type: "compliance", value: "verified" }
+        ]
+      }
+    },
+    {
+      id: 6n,
+      metadata: {
+        name: "Reforestation Project",
+        image: "https://images.unsplash.com/photo-1574263867128-a3d5c1b1deaa?w=400&h=400&fit=crop",
+        attributes: [
+          { trait_type: "category", value: "carbon" },
+          { trait_type: "type", value: "Tree Planting" },
+          { trait_type: "trees", value: "10000" },
+          { trait_type: "compliance", value: "verified" }
+        ]
+      }
+    }
+  ];
+
+  const nftsToShow = allNFTs && allNFTs.length > 0 ? allNFTs : demoNFTs;
+  const filtered = nftsToShow.filter((nft) =>
     isInCategory(nft?.metadata, category)
   );
   const len = filtered.length;

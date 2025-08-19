@@ -15,7 +15,92 @@ type Category = "all" | "property" | "carbon";
 
 export function ListingGrid({ category = "all" }: { category?: Category }) {
   const { listingsInSelectedCollection, nftContract } = useMarketplaceContext();
-  const filtered = (listingsInSelectedCollection || []).filter((item) =>
+  
+  // Demo listings for when no real listings are available
+  const demoListings = [
+    {
+      id: 1n,
+      asset: {
+        id: 1n,
+        metadata: {
+          name: "Luxury Downtown Apartment",
+          image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=400&fit=crop",
+          attributes: [
+            { trait_type: "category", value: "property" },
+            { trait_type: "location", value: "New York, NY" },
+            { trait_type: "compliance", value: "verified" }
+          ]
+        }
+      },
+      currencyValuePerToken: {
+        displayValue: "0.025",
+        symbol: "ETH"
+      }
+    },
+    {
+      id: 2n,
+      asset: {
+        id: 2n,
+        metadata: {
+          name: "Carbon Credit Portfolio",
+          image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop",
+          attributes: [
+            { trait_type: "category", value: "carbon" },
+            { trait_type: "type", value: "Forest Conservation" },
+            { trait_type: "compliance", value: "verified" }
+          ]
+        }
+      },
+      currencyValuePerToken: {
+        displayValue: "0.01",
+        symbol: "ETH"
+      }
+    },
+    {
+      id: 3n,
+      asset: {
+        id: 3n,
+        metadata: {
+          name: "Commercial Real Estate",
+          image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=400&fit=crop",
+          attributes: [
+            { trait_type: "category", value: "property" },
+            { trait_type: "location", value: "San Francisco, CA" },
+            { trait_type: "compliance", value: "verified" }
+          ]
+        }
+      },
+      currencyValuePerToken: {
+        displayValue: "0.05",
+        symbol: "ETH"
+      }
+    },
+    {
+      id: 4n,
+      asset: {
+        id: 4n,
+        metadata: {
+          name: "Renewable Energy Credits",
+          image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=400&fit=crop",
+          attributes: [
+            { trait_type: "category", value: "carbon" },
+            { trait_type: "type", value: "Solar Energy" },
+            { trait_type: "compliance", value: "verified" }
+          ]
+        }
+      },
+      currencyValuePerToken: {
+        displayValue: "0.008",
+        symbol: "ETH"
+      }
+    }
+  ];
+
+  const listingsToShow = listingsInSelectedCollection && listingsInSelectedCollection.length > 0 
+    ? listingsInSelectedCollection 
+    : demoListings;
+    
+  const filtered = listingsToShow.filter((item) =>
     isInCategory(item.asset?.metadata, category)
   );
   const len = filtered.length;
