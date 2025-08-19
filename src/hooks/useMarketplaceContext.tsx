@@ -112,8 +112,6 @@ export default function MarketplaceProvider({
 
   const isNftCollection = is1155 || is721;
 
-  if (!isNftCollection && !isChecking1155 && !isChecking721)
-    throw new Error("Not a valid NFT collection");
 
   const { data: contractMetadata, isLoading: isLoadingContractMetadata } =
     useReadContract(getContractMetadata, {
@@ -170,6 +168,10 @@ export default function MarketplaceProvider({
     SUPPORTED_TOKENS.find(
       (item) => item.chain.id === marketplaceContract.chain.id
     )?.tokens || [];
+
+  if (!isNftCollection && !isChecking1155 && !isChecking721) {
+    return null;
+  }
 
   return (
     <MarketplaceContext.Provider

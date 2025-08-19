@@ -27,7 +27,13 @@ type Category = "all" | "property" | "carbon";
 export function AllNftsGrid({ category = "all" }: { category?: Category }) {
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
-  const { nftContract, type, supplyInfo } = useMarketplaceContext();
+  const marketplaceContext = useMarketplaceContext();
+
+  if (!marketplaceContext) {
+    return <Box mx="auto">Loading...</Box>;
+  }
+
+  const { nftContract, type, supplyInfo } = marketplaceContext;
   const startTokenId = supplyInfo?.startTokenId ?? 0n;
   const totalItems: bigint = supplyInfo
     ? supplyInfo.endTokenId - supplyInfo.startTokenId + 1n
@@ -88,8 +94,11 @@ function isInCategory(metadata: any, category: Category): boolean {
     type === "ERC1155" ? getNFTs1155 : getNFTs721,
     {
       contract: nftContract,
-      start: pages[currentPageIndex].start,
-      count: pages[currentPageIndex].count,
+      start: pages[currentPageIndex]?.start,
+      count: pages[currentPageIndex]?.count,
+      queryOptions: {
+        enabled: pages.length > 0,
+      },
     }
   );
   const filtered = (allNFTs || []).filter((nft) =>
