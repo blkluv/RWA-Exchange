@@ -19,10 +19,72 @@ export class OneChainWalletService {
   private client: SuiClient;
   private config: OneChainConfig;
   private keypair?: Ed25519Keypair;
+  private walletExtension: any = null;
 
   constructor(config: OneChainConfig) {
     this.config = config;
     this.client = new SuiClient({ url: config.rpcUrl });
+  }
+
+  /**
+   * Check if wallet extension is available
+   */
+  isWalletExtensionAvailable(): boolean {
+    return typeof window !== 'undefined' && 
+           (window as any).suiWallet !== undefined;
+  }
+
+  /**
+   * Connect to browser wallet extension
+   */
+  async connectWalletExtension(): Promise<WalletAccount> {
+    if (!this.isWalletExtensionAvailable()) {
+      throw new Error('Sui wallet extension not found. Please install a Sui wallet extension.');
+    }
+
+    try {
+      const wallet = (window as any).suiWallet;
+      
+      // Request connection to wallet
+      const response = await wallet.requestPermissions({
+        permissions: ['viewAccount', 'suggestTransactions']
+      });
+
+      if (!response.accounts || response.accounts.length === 0) {
+        throw new Error('No accounts found in wallet extension');
+      }
+
+      const account = response.accounts[0];
+      this.walletExtension = wallet;
+
+      return {
+        address: account.address,
+        publicKey: account.publicKey || '',
+      };
+    } catch (error) {
+      console.error('Failed to connect to wallet extension:', error);
+      throw new Error('Failed to connect to wallet extension');
+    }
+  }
+
+  /**
+   * Get accounts from wallet extension
+   */
+  async getWalletExtensionAccounts(): Promise<WalletAccount[]> {
+    if (!this.walletExtension) {
+      throw new Error('Wallet extension not connected');
+    }
+
+    try {
+      const accounts = await this.walletExtension.getAccounts();
+      return accounts.map((account: any) => ({
+        address: account.address,
+        publicKey: account.publicKey || '',
+      }));
+    } catch (error) {
+      console.error('Failed to get accounts:', error);
+      throw error;
+    }
   }
 
   /**
@@ -110,7 +172,7 @@ export class OneChainWalletService {
   }
 
   /**
-   * Create and sign a transaction
+   * Create and sign a transaction using wallet extension
    */
   async createTransaction(
     sender: string,
@@ -118,8 +180,60 @@ export class OneChainWalletService {
     amount: string,
     coinType?: string
   ): Promise<string> {
-    if (!this.keypair) {
+    if (this.walletExtension) {
+      // Use wallet extension for transaction
+      return this.createTransactionWithExtension(sender, recipient, amount);
+    } else if (this.keypair) {
+      // Fallback to programmatic signing
+      return this.createTransactionWithKeypair(sender, recipient, amount);
+    } else {
       throw new Error('No wallet connected');
+    }
+  }
+
+  /**
+   * Create transaction using wallet extension
+   */
+  private async createTransactionWithExtension(
+    sender: string,
+    recipient: string,
+    amount: string
+  ): Promise<string> {
+    const tx = new Transaction();
+    
+    // Split coins for the transfer amount
+    const [coin] = tx.splitCoins(tx.gas, [amount]);
+    
+    // Transfer the coin to recipient
+    tx.transferObjects([coin], recipient);
+
+    // Set sender
+    tx.setSender(sender);
+
+    try {
+      // Request wallet extension to sign and execute
+      const result = await this.walletExtension.signAndExecuteTransactionBlock({
+        transactionBlock: tx,
+        account: sender,
+      });
+
+      return result.digest;
+    } catch (error) {
+      console.error('Error executing transaction with extension:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create transaction using keypair (fallback)
+   */
+  private async createTransactionWithKeypair(
+    sender: string,
+    recipient: string,
+    amount: string
+  ): Promise<string> {
+    if (!this.keypair) {
+      throw new Error('No keypair available');
     }
 
     const tx = new Transaction();

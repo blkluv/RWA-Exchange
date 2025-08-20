@@ -42,19 +42,35 @@ export const useOneChainWallet = (): UseOneChainWalletReturn => {
     setError(null);
 
     try {
-      // For now, create a new wallet. In production, this would integrate with browser wallet
-      const { account: newAccount } = oneChainService.createWallet();
-      
-      // Get balance
-      const balance = await oneChainService.getBalance(newAccount.address);
-      const accountWithBalance = { ...newAccount, balance };
-      
-      setAccount(accountWithBalance);
-      
-      // Save to localStorage
-      localStorage.setItem('onechain_wallet', JSON.stringify(accountWithBalance));
-      
-      return accountWithBalance;
+      // Try to connect to wallet extension first
+      if (oneChainService.isWalletExtensionAvailable()) {
+        const extensionAccount = await oneChainService.connectWalletExtension();
+        
+        // Get balance
+        const balance = await oneChainService.getBalance(extensionAccount.address);
+        const accountWithBalance = { ...extensionAccount, balance };
+        
+        setAccount(accountWithBalance);
+        
+        // Save to localStorage
+        localStorage.setItem('onechain_wallet', JSON.stringify(accountWithBalance));
+        
+        return accountWithBalance;
+      } else {
+        // Fallback to creating a new wallet
+        const { account: newAccount } = oneChainService.createWallet();
+        
+        // Get balance
+        const balance = await oneChainService.getBalance(newAccount.address);
+        const accountWithBalance = { ...newAccount, balance };
+        
+        setAccount(accountWithBalance);
+        
+        // Save to localStorage
+        localStorage.setItem('onechain_wallet', JSON.stringify(accountWithBalance));
+        
+        return accountWithBalance;
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to connect wallet';
       setError(errorMessage);

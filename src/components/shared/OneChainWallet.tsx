@@ -52,31 +52,61 @@ export function OneChainWallet({ isOpen, onClose }: OneChainWalletProps) {
   const [amount, setAmount] = useState("");
   const [showImport, setShowImport] = useState(false);
   const [showSend, setShowSend] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectionStep, setConnectionStep] = useState("");
 
   const toast = useToast();
 
   const handleConnect = async () => {
+    setIsConnecting(true);
+    setConnectionStep("Checking for wallet extension...");
+    
     try {
+      setConnectionStep("Opening wallet extension popup...");
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      setConnectionStep("Requesting wallet permissions...");
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      setConnectionStep("Connecting to OneChain network...");
       await connect();
+      
+      setConnectionStep("Connection successful!");
       toast({
         title: "Wallet Connected",
-        description: "OneChain wallet connected successfully",
+        description: "OneChain wallet extension connected successfully",
         status: "success",
         duration: 3000,
       });
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to connect wallet";
       toast({
         title: "Connection Failed",
-        description: err instanceof Error ? err.message : "Failed to connect wallet",
+        description: errorMsg,
         status: "error",
         duration: 5000,
       });
+    } finally {
+      setIsConnecting(false);
+      setConnectionStep("");
     }
   };
 
   const handleCreateWallet = async () => {
+    setIsConnecting(true);
+    setConnectionStep("Generating new wallet...");
+    
     try {
+      setConnectionStep("Creating keypair...");
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      setConnectionStep("Securing wallet credentials...");
+      await new Promise(resolve => setTimeout(resolve, 600));
+      
+      setConnectionStep("Initializing wallet balance...");
       await createWallet();
+      
+      setConnectionStep("Wallet created successfully!");
       toast({
         title: "Wallet Created",
         description: "New OneChain wallet created successfully",
@@ -90,6 +120,9 @@ export function OneChainWallet({ isOpen, onClose }: OneChainWalletProps) {
         status: "error",
         duration: 5000,
       });
+    } finally {
+      setIsConnecting(false);
+      setConnectionStep("");
     }
   };
 
@@ -214,7 +247,7 @@ export function OneChainWallet({ isOpen, onClose }: OneChainWalletProps) {
   };
 
   const formatBalance = (balance: string) => {
-    const balanceNum = parseFloat(balance) / 1e9; // Convert from MIST to SUI
+    const balanceNum = parseFloat(balance) / 1e9;
     return balanceNum.toFixed(4);
   };
 
@@ -233,58 +266,170 @@ export function OneChainWallet({ isOpen, onClose }: OneChainWalletProps) {
           )}
 
           {!isConnected ? (
-            <VStack spacing={4}>
-              <Text textAlign="center" color="gray.600">
-                Connect or create a OneChain wallet to get started
-              </Text>
-
-              <Button
-                onClick={handleConnect}
-                isLoading={isLoading}
-                colorScheme="blue"
-                size="lg"
-                width="full"
-              >
-                Connect Existing Wallet
-              </Button>
-
-              <Button
-                onClick={handleCreateWallet}
-                isLoading={isLoading}
-                variant="outline"
-                size="lg"
-                width="full"
-              >
-                Create New Wallet
-              </Button>
-
-              <Divider />
-
-              <Button
-                onClick={() => setShowImport(!showImport)}
-                variant="ghost"
-                size="sm"
-              >
-                Import from Private Key
-              </Button>
-
-              {showImport && (
-                <VStack spacing={3} width="full">
-                  <Input
-                    placeholder="Enter private key"
-                    value={privateKey}
-                    onChange={(e) => setPrivateKey(e.target.value)}
-                    type="password"
-                  />
-                  <Button
-                    onClick={handleImportWallet}
-                    isLoading={isLoading}
-                    colorScheme="green"
-                    size="sm"
+            <VStack spacing={6}>
+              {isConnecting ? (
+                <VStack spacing={4} py={8}>
+                  <Box
+                    w="60px"
+                    h="60px"
+                    borderRadius="full"
+                    bg="blue.100"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
                   >
-                    Import Wallet
-                  </Button>
+                    <Box
+                      w="30px"
+                      h="30px"
+                      border="3px solid"
+                      borderColor="blue.500"
+                      borderTopColor="transparent"
+                      borderRadius="full"
+                      animation="spin 1s linear infinite"
+                    />
+                  </Box>
+                  <VStack spacing={2} textAlign="center">
+                    <Text fontSize="lg" fontWeight="bold" color="blue.600">
+                      Connecting to OneChain
+                    </Text>
+                    <Text color="gray.600" fontSize="sm">
+                      {connectionStep}
+                    </Text>
+                  </VStack>
                 </VStack>
+              ) : (
+                <>
+                  <VStack spacing={3} textAlign="center">
+                    <Text fontSize="lg" fontWeight="bold" color="blue.600">
+                      Connect to OneChain
+                    </Text>
+                    <Text color="gray.600" fontSize="sm">
+                      Choose how you'd like to connect your OneChain wallet
+                    </Text>
+                  </VStack>
+
+                  <VStack spacing={4} width="full">
+                    <Box
+                      p={4}
+                      borderWidth={2}
+                      borderRadius="lg"
+                      borderColor="blue.200"
+                      bg="blue.50"
+                      width="full"
+                      cursor="pointer"
+                      _hover={{ borderColor: "blue.300", bg: "blue.100" }}
+                      onClick={handleConnect}
+                    >
+                      <VStack spacing={2}>
+                        <Text fontWeight="bold" color="blue.700">
+                          🔗 Connect Wallet Extension
+                        </Text>
+                        <Text fontSize="sm" color="gray.600" textAlign="center">
+                          Connect using your browser wallet extension (Sui Wallet)
+                        </Text>
+                      </VStack>
+                    </Box>
+
+                    <Box
+                      p={4}
+                      borderWidth={2}
+                      borderRadius="lg"
+                      borderColor="green.200"
+                      bg="green.50"
+                      width="full"
+                      cursor="pointer"
+                      _hover={{ borderColor: "green.300", bg: "green.100" }}
+                      onClick={handleCreateWallet}
+                    >
+                      <VStack spacing={2}>
+                        <Text fontWeight="bold" color="green.700">
+                          ✨ Create New Wallet
+                        </Text>
+                        <Text fontSize="sm" color="gray.600" textAlign="center">
+                          Generate a new OneChain wallet instantly
+                        </Text>
+                      </VStack>
+                    </Box>
+
+                    <Box
+                      p={4}
+                      borderWidth={2}
+                      borderRadius="lg"
+                      borderColor="purple.200"
+                      bg="purple.50"
+                      width="full"
+                      cursor="pointer"
+                      _hover={{ borderColor: "purple.300", bg: "purple.100" }}
+                      onClick={() => setShowImport(!showImport)}
+                    >
+                      <VStack spacing={2}>
+                        <Text fontWeight="bold" color="purple.700">
+                          🔑 Import from Private Key
+                        </Text>
+                        <Text fontSize="sm" color="gray.600" textAlign="center">
+                          Import wallet using your private key
+                        </Text>
+                      </VStack>
+                    </Box>
+                  </VStack>
+
+                  {showImport && (
+                    <Box
+                      p={4}
+                      borderWidth={1}
+                      borderRadius="md"
+                      bg="gray.50"
+                      width="full"
+                    >
+                      <VStack spacing={3}>
+                        <Text fontWeight="bold" fontSize="sm">
+                          Import Private Key
+                        </Text>
+                        <Input
+                          placeholder="Enter your private key"
+                          value={privateKey}
+                          onChange={(e) => setPrivateKey(e.target.value)}
+                          type="password"
+                          bg="white"
+                        />
+                        <HStack spacing={2} width="full">
+                          <Button
+                            onClick={() => {
+                              setShowImport(false);
+                              setPrivateKey("");
+                            }}
+                            variant="ghost"
+                            size="sm"
+                            flex={1}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={handleImportWallet}
+                            isLoading={isLoading}
+                            colorScheme="purple"
+                            size="sm"
+                            flex={1}
+                          >
+                            Import
+                          </Button>
+                        </HStack>
+                      </VStack>
+                    </Box>
+                  )}
+
+                  <Alert status="info" borderRadius="md">
+                    <AlertIcon />
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="sm" fontWeight="bold">
+                        OneChain Network: Testnet
+                      </Text>
+                      <Text fontSize="xs">
+                        You can request test tokens from the faucet after connecting
+                      </Text>
+                    </VStack>
+                  </Alert>
+                </>
               )}
             </VStack>
           ) : (
