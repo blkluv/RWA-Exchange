@@ -2,6 +2,19 @@
 # yarn lockfile v1
 
 
+"@0no-co/graphql.web@^1.0.5":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@0no-co/graphql.web/-/graphql.web-1.2.0.tgz"
+  integrity sha512-/1iHy9TTr63gE1YcR5idjx8UREz1s0kFhydf3bBLCXyqjhkIc6igAzTOx3zPifCwFR87tsh/4Pa9cNts6d2otw==
+
+"@0no-co/graphqlsp@^1.12.13":
+  version "1.15.0"
+  resolved "https://registry.npmjs.org/@0no-co/graphqlsp/-/graphqlsp-1.15.0.tgz"
+  integrity sha512-SReJAGmOeXrHGod+9Odqrz4s43liK0b2DFUetb/jmYvxFpWmeNfFYo0seCh0jz8vG3p1pnYMav0+Tm7XwWtOJw==
+  dependencies:
+    "@gql.tada/internal" "^1.0.0"
+    graphql "^15.5.0 || ^16.0.0 || ^17.0.0"
+
 "@adraffy/ens-normalize@^1.10.1", "@adraffy/ens-normalize@1.10.1":
   version "1.10.1"
   resolved "https://registry.npmjs.org/@adraffy/ens-normalize/-/ens-normalize-1.10.1.tgz"
@@ -883,6 +896,21 @@
   resolved "https://registry.npmjs.org/@chakra-ui/visually-hidden/-/visually-hidden-2.2.0.tgz"
   integrity sha512-KmKDg01SrQ7VbTD3+cPWf/UfpF5MSwm3v7MWi0n5t8HnnadT13MF0MJCDSXbBWnzLv1ZKJ6zlyAOeARWX+DpjQ==
 
+"@coinbase-sample/core-ts@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@coinbase-sample/core-ts/-/core-ts-0.2.0.tgz"
+  integrity sha512-6wtb55kekgF+sHoHMxfrqB1z5liKgSyM1pjpok48tw4XBG7sfGDau+j338hO9Be9tae619m5Rr5zKfrqAj7hbw==
+  dependencies:
+    axios "^1.9.0"
+    axios-retry "^4.5.0"
+
+"@coinbase-sample/prime-sdk-ts@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.npmjs.org/@coinbase-sample/prime-sdk-ts/-/prime-sdk-ts-0.6.3.tgz"
+  integrity sha512-q2PTNdqHAE96T8FMny2Fedg2NLE8YcFh/LU/xtlGPY5H+WYxYrq0SOOlbOZCSCrHo69MNr8lMfY1QucbF0hyEw==
+  dependencies:
+    "@coinbase-sample/core-ts" "^0.2.0"
+
 "@coinbase/wallet-sdk@4.3.0":
   version "4.3.0"
   resolved "https://registry.npmjs.org/@coinbase/wallet-sdk/-/wallet-sdk-4.3.0.tgz"
@@ -1376,6 +1404,27 @@
   resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.10.tgz"
   integrity sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==
 
+"@gql.tada/cli-utils@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.npmjs.org/@gql.tada/cli-utils/-/cli-utils-1.7.1.tgz"
+  integrity sha512-wg5ysZNQxtNQm67T3laVWmZzLpGb7QfyYWZdaUD2r1OjDj5Bgftq7eQlplmH+hsdffjuUyhJw/b5XAjeE2mJtg==
+  dependencies:
+    "@0no-co/graphqlsp" "^1.12.13"
+    "@gql.tada/internal" "1.0.8"
+    graphql "^15.5.0 || ^16.0.0 || ^17.0.0"
+
+"@gql.tada/internal@^1.0.0", "@gql.tada/internal@1.0.8":
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/@gql.tada/internal/-/internal-1.0.8.tgz"
+  integrity sha512-XYdxJhtHC5WtZfdDqtKjcQ4d7R1s0d1rnlSs3OcBEUbYiPoJJfZU7tWsVXuv047Z6msvmr4ompJ7eLSK5Km57g==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.5"
+
+"@graphql-typed-document-node/core@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.2.0.tgz"
+  integrity sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==
+
 "@harmony-js/account@0.1.56":
   version "0.1.56"
   resolved "https://registry.npmjs.org/@harmony-js/account/-/account-0.1.56.tgz"
@@ -1451,7 +1500,7 @@
     hmac-drbg "^1.0.1"
     js-sha3 "^0.8.0"
     pbkdf2 "^3.0.17"
-    scrypt-shim "https://github.com/web3-js/scrypt-shim.git"
+    scrypt-shim "github:web3-js/scrypt-shim"
     uuid "^3.3.2"
 
 "@harmony-js/network@0.1.56":
@@ -1592,14 +1641,14 @@
   resolved "https://registry.npmjs.org/@noble/ciphers/-/ciphers-1.2.1.tgz"
   integrity sha512-rONPWMC7PeExE077uLE4oqWrZ1IvAfz3oH9LibVAcVCopJiA9R62uavnbEzdkVmJYI6M6Zgkbeb07+tWjlq2XA==
 
-"@noble/curves@^1.6.0", "@noble/curves@~1.9.0", "@noble/curves@1.9.2":
+"@noble/curves@^1.6.0", "@noble/curves@1.9.2":
   version "1.9.2"
   resolved "https://registry.npmjs.org/@noble/curves/-/curves-1.9.2.tgz"
   integrity sha512-HxngEd2XUcg9xi20JkwlLCtYwfoFw4JGkuZpT+WlsPD4gB/cxkvTD8fSsoAnphGZhFdZYKeQIPCuFlWPm1uE0g==
   dependencies:
     "@noble/hashes" "1.8.0"
 
-"@noble/curves@^1.9.1":
+"@noble/curves@^1.8.1", "@noble/curves@^1.9.1", "@noble/curves@~1.9.0":
   version "1.9.7"
   resolved "https://registry.npmjs.org/@noble/curves/-/curves-1.9.7.tgz"
   integrity sha512-gbKGcRUYIjA3/zCCNaWDciTMFI0dCkvou3TL8Zmy5Nc7sJ47a0jtOeZoTaMxkuqRo9cRhjOdZJXegxYE5FN/xw==
@@ -1660,7 +1709,7 @@
   resolved "https://registry.npmjs.org/@noble/hashes/-/hashes-1.4.0.tgz"
   integrity sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==
 
-"@noble/hashes@^1.5.0", "@noble/hashes@^1.8.0", "@noble/hashes@~1.8.0", "@noble/hashes@1.8.0":
+"@noble/hashes@^1.5.0", "@noble/hashes@^1.7.1", "@noble/hashes@^1.8.0", "@noble/hashes@~1.8.0", "@noble/hashes@1.8.0":
   version "1.8.0"
   resolved "https://registry.npmjs.org/@noble/hashes/-/hashes-1.8.0.tgz"
   integrity sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==
@@ -1897,6 +1946,30 @@
     lodash "^4.17.21"
     typescript "^5.2.2"
 
+"@onelabs/bcs@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@onelabs/bcs/-/bcs-1.6.0.tgz"
+  integrity sha512-9Qtdopq0cqCvLcqugugRcW5xoGV2/ywM2wRaMD4MiFuEcuYDSYmfc65umPoFhvGhEDvs7FOVHlVn4FTvYg964Q==
+  dependencies:
+    "@scure/base" "^1.2.4"
+
+"@onelabs/sui@^1.26.2":
+  version "1.26.2"
+  resolved "https://registry.npmjs.org/@onelabs/sui/-/sui-1.26.2.tgz"
+  integrity sha512-1aeHHedkcRgkrRvnvK9p0KruP/jVIh4vPsivABoFFL+BeFJM+nyvxna5cHwMb8wYivsLc9NqxC1UewToukWTCA==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.2.0"
+    "@noble/curves" "^1.8.1"
+    "@noble/hashes" "^1.7.1"
+    "@onelabs/bcs" "1.6.0"
+    "@scure/base" "^1.2.4"
+    "@scure/bip32" "^1.6.2"
+    "@scure/bip39" "^1.5.4"
+    gql.tada "^1.8.2"
+    graphql "^16.9.0"
+    poseidon-lite "^0.2.0"
+    valibot "^0.36.0"
+
 "@openzeppelin/contracts@^5.4.0":
   version "5.4.0"
   resolved "https://registry.npmjs.org/@openzeppelin/contracts/-/contracts-5.4.0.tgz"
@@ -2118,6 +2191,11 @@
   resolved "https://registry.npmjs.org/@radix-ui/rect/-/rect-1.1.1.tgz"
   integrity sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==
 
+"@scure/base@^1.2.4", "@scure/base@~1.2.5":
+  version "1.2.6"
+  resolved "https://registry.npmjs.org/@scure/base/-/base-1.2.6.tgz"
+  integrity sha512-g/nm5FgUa//MCj1gV09zTJTaM6KBAHqLN907YVQqf7zC49+DcO4B1so4ZX07Ef10Twr6nuqYEH9GEggFXA4Fmg==
+
 "@scure/base@~1.1.6":
   version "1.1.9"
   resolved "https://registry.npmjs.org/@scure/base/-/base-1.1.9.tgz"
@@ -2134,6 +2212,15 @@
   integrity sha512-g/nm5FgUa//MCj1gV09zTJTaM6KBAHqLN907YVQqf7zC49+DcO4B1so4ZX07Ef10Twr6nuqYEH9GEggFXA4Fmg==
 
 "@scure/bip32@^1.5.0", "@scure/bip32@^1.7.0", "@scure/bip32@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/@scure/bip32/-/bip32-1.7.0.tgz"
+  integrity sha512-E4FFX/N3f4B80AKWp5dP6ow+flD1LQZo/w8UnLGYZO674jS6YnYeepycOOksv+vLPSpgN35wgKgy+ybfTb2SMw==
+  dependencies:
+    "@noble/curves" "~1.9.0"
+    "@noble/hashes" "~1.8.0"
+    "@scure/base" "~1.2.5"
+
+"@scure/bip32@^1.6.2":
   version "1.7.0"
   resolved "https://registry.npmjs.org/@scure/bip32/-/bip32-1.7.0.tgz"
   integrity sha512-E4FFX/N3f4B80AKWp5dP6ow+flD1LQZo/w8UnLGYZO674jS6YnYeepycOOksv+vLPSpgN35wgKgy+ybfTb2SMw==
@@ -2161,6 +2248,14 @@
     "@scure/base" "~1.2.2"
 
 "@scure/bip39@^1.4.0", "@scure/bip39@^1.6.0", "@scure/bip39@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@scure/bip39/-/bip39-1.6.0.tgz"
+  integrity sha512-+lF0BbLiJNwVlev4eKelw1WWLaiKXw7sSl8T6FvBlWkdX+94aGJ4o8XjUdlyhTCjd8c+B3KT3JfS8P0bLRNU6A==
+  dependencies:
+    "@noble/hashes" "~1.8.0"
+    "@scure/base" "~1.2.5"
+
+"@scure/bip39@^1.5.4":
   version "1.6.0"
   resolved "https://registry.npmjs.org/@scure/bip39/-/bip39-1.6.0.tgz"
   integrity sha512-+lF0BbLiJNwVlev4eKelw1WWLaiKXw7sSl8T6FvBlWkdX+94aGJ4o8XjUdlyhTCjd8c+B3KT3JfS8P0bLRNU6A==
@@ -3101,7 +3196,14 @@ aws4@^1.8.0:
   resolved "https://registry.npmjs.org/aws4/-/aws4-1.13.2.tgz"
   integrity sha512-lHe62zvbTB5eEABUVi/AwVh0ZKY9rMMDhmm+eeyuuUQbQ3+J+fONVQOZyj+DdrvD4BY33uYniyRJ4UJIaSKAfw==
 
-axios@^1.5.0, axios@^1.6.7:
+axios-retry@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/axios-retry/-/axios-retry-4.5.0.tgz"
+  integrity sha512-aR99oXhpEDGo0UuAlYcn2iGRds30k366Zfa05XWScR9QaQD4JYiP3/1Qt1u7YlefUOK+cn0CcwoL1oefavQUlQ==
+  dependencies:
+    is-retry-allowed "^2.2.0"
+
+axios@^1.5.0, axios@^1.6.7, axios@^1.9.0:
   version "1.11.0"
   resolved "https://registry.npmjs.org/axios/-/axios-1.11.0.tgz"
   integrity sha512-1Lx3WLFQWm3ooKDYZD1eXmoGO9fxYQjrycfHFC8P0sCfQVXyROp0p9PFWBehewBOdCwHc+f/b8I0fMto5eSfwA==
@@ -5007,10 +5109,25 @@ got@12.1.0:
     p-cancelable "^3.0.0"
     responselike "^2.0.0"
 
+gql.tada@^1.8.2:
+  version "1.8.13"
+  resolved "https://registry.npmjs.org/gql.tada/-/gql.tada-1.8.13.tgz"
+  integrity sha512-fYoorairdPgxtE7Sf1X9/6bSN9Kt2+PN8KLg3hcF8972qFnawwUgs1OLVU8efZMHwL7EBHhhKBhrsGPlOs2lZQ==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.5"
+    "@0no-co/graphqlsp" "^1.12.13"
+    "@gql.tada/cli-utils" "1.7.1"
+    "@gql.tada/internal" "1.0.8"
+
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11:
   version "4.2.11"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
+
+"graphql@^15.5.0 || ^16.0.0 || ^17.0.0", graphql@^16.9.0:
+  version "16.11.0"
+  resolved "https://registry.npmjs.org/graphql/-/graphql-16.11.0.tgz"
+  integrity sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw==
 
 h3@^1.15.3:
   version "1.15.4"
@@ -5428,6 +5545,11 @@ is-regex@^1.2.1:
     gopd "^1.2.0"
     has-tostringtag "^1.0.2"
     hasown "^2.0.2"
+
+is-retry-allowed@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/is-retry-allowed/-/is-retry-allowed-2.2.0.tgz"
+  integrity sha512-XVm7LOeLpTW4jV19QSH38vkswxoLud8sQ57YwJVTPWdiaI9I8keEhGFpBlslyVsgdQy4Opg8QOLb8YRgsyZiQg==
 
 is-typed-array@^1.1.14, is-typed-array@^1.1.3:
   version "1.1.15"
@@ -6548,6 +6670,11 @@ pngjs@^5.0.0:
   resolved "https://registry.npmjs.org/pngjs/-/pngjs-5.0.0.tgz"
   integrity sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==
 
+poseidon-lite@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/poseidon-lite/-/poseidon-lite-0.2.1.tgz"
+  integrity sha512-xIr+G6HeYfOhCuswdqcFpSX47SPhm0EpisWJ6h7fHlWwaVIvH3dLnejpatrtw6Xc6HaLrpq05y7VRfvDmDGIog==
+
 possible-typed-array-names@^1.0.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/possible-typed-array-names/-/possible-typed-array-names-1.1.0.tgz"
@@ -7073,7 +7200,7 @@ scrypt-js@^3.0.0, scrypt-js@^3.0.1:
 
 "scrypt-shim@github:web3-js/scrypt-shim":
   version "0.1.0"
-  resolved "https://github.com/web3-js/scrypt-shim.git#aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"
+  resolved "git+ssh://git@github.com/web3-js/scrypt-shim.git#aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"
   dependencies:
     scryptsy "^2.1.0"
     semver "^6.3.0"
@@ -8054,6 +8181,11 @@ v8-compile-cache-lib@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/v8-compile-cache-lib/-/v8-compile-cache-lib-3.0.1.tgz"
   integrity sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==
+
+valibot@^0.36.0:
+  version "0.36.0"
+  resolved "https://registry.npmjs.org/valibot/-/valibot-0.36.0.tgz"
+  integrity sha512-CjF1XN4sUce8sBK9TixrDqFM7RwNkuXdJu174/AwmQUB62QbCQADg5lLe8ldBalFgtj1uKj+pKwDJiNo4Mn+eQ==
 
 varint@^5.0.0:
   version "5.0.2"

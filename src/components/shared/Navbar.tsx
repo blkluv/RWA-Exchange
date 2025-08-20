@@ -27,6 +27,7 @@ import {
   useActiveWallet,
   useDisconnect,
 } from "thirdweb/react";
+import { OneChainWalletButton } from "./OneChainWallet";
 
 export function Navbar() {
   const account = useActiveAccount();
@@ -73,6 +74,8 @@ export function Navbar() {
           </HStack>
 
           <ToggleThemeButton />
+
+          <OneChainWalletButton />
 
           {account ? (
             <ProfileButton address={account.address} onLogout={handleLogout} />
