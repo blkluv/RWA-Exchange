@@ -129,7 +129,7 @@ export default function Home() {
                   bgClip="text"
                   maxW="5xl"
                 >
-                  Democratize Real-World Asset Investment
+                  Fractionalize the Planet. Trade Like Wall Street.
                 </Heading>
               </MotionBox>
               
@@ -145,8 +145,9 @@ export default function Home() {
                   fontFamily="Inter"
                   lineHeight="1.8"
                 >
-                  Experience the future of investment with tokenized real estate, art, and commodities. 
-                  Start your journey with fractional ownership from just $100.
+                  Every asset has an rentable address. Every share has a ticker. Invest seamlessly in
+                  tokenized real-world assets, precisely located by what3words. Build your portfolio
+                  with ownership stakes starting at $100.
                 </Text>
               </MotionBox>
               

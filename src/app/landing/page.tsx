@@ -104,7 +104,7 @@ export default function LandingPage() {
               fontWeight="bold"
               maxW="4xl"
             >
-              Democratize Real-World Asset Investment
+              Fractionalize the Planet. Trade Like Wall Street.
             </Heading>
             
             <Text 
@@ -112,8 +112,9 @@ export default function LandingPage() {
               maxW="3xl"
               opacity={0.9}
             >
-              OneRWA enables fractional ownership of premium real estate, art, commodities, 
-              and more through blockchain technology. Invest in the real world, powered by DeFi.
+              Every asset has an rentable address. Every share has a ticker. Invest seamlessly in
+              tokenized real-world assets, precisely located by what3words. Build your portfolio with
+              ownership stakes starting at $100.
             </Text>
             
             <HStack spacing={4} pt={4}>

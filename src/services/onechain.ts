@@ -26,28 +26,17 @@ export class OneChainWalletService {
     this.client = new SuiClient({ url: config.rpcUrl });
   }
 
-  /**
-   * Check if wallet extension is available
-   */
   isWalletExtensionAvailable(): boolean {
-    return typeof window !== 'undefined' && 
-           (window as any).suiWallet !== undefined;
+    return typeof window !== 'undefined' && (window as any).suiWallet !== undefined;
   }
 
-  /**
-   * Connect to browser wallet extension
-   */
   async connectWalletExtension(): Promise<WalletAccount> {
-    if (!this.isWalletExtensionAvailable()) {
-      throw new Error('Sui wallet extension not found. Please install a Sui wallet extension.');
-    }
+    if (!this.isWalletExtensionAvailable()) throw new Error('Sui wallet extension not found.');
 
     try {
       const wallet = (window as any).suiWallet;
-      
-      // Request connection to wallet
       const response = await wallet.requestPermissions({
-        permissions: ['viewAccount', 'suggestTransactions']
+        permissions: ['viewAccount', 'suggestTransactions'],
       });
 
       if (!response.accounts || response.accounts.length === 0) {
@@ -67,13 +56,8 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Get accounts from wallet extension
-   */
   async getWalletExtensionAccounts(): Promise<WalletAccount[]> {
-    if (!this.walletExtension) {
-      throw new Error('Wallet extension not connected');
-    }
+    if (!this.walletExtension) throw new Error('Wallet extension not connected');
 
     try {
       const accounts = await this.walletExtension.getAccounts();
@@ -87,23 +71,17 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Create a new wallet keypair
-   */
   createWallet(): { keypair: Ed25519Keypair; account: WalletAccount } {
     const keypair = new Ed25519Keypair();
     const account: WalletAccount = {
       address: keypair.getPublicKey().toSuiAddress(),
       publicKey: keypair.getPublicKey().toBase64(),
     };
-    
+
     this.keypair = keypair;
     return { keypair, account };
   }
 
-  /**
-   * Import wallet from private key
-   */
   importWallet(privateKey: string): WalletAccount {
     const secretKeyBytes = fromBase64(privateKey);
     const keypair = Ed25519Keypair.fromSecretKey(secretKeyBytes);
@@ -111,19 +89,14 @@ export class OneChainWalletService {
       address: keypair.getPublicKey().toSuiAddress(),
       publicKey: keypair.getPublicKey().toBase64(),
     };
-    
+
     this.keypair = keypair;
     return account;
   }
 
-  /**
-   * Get wallet balance
-   */
   async getBalance(address: string): Promise<string> {
     try {
-      const balance = await this.client.getBalance({
-        owner: address,
-      });
+      const balance = await this.client.getBalance({ owner: address });
       return balance.totalBalance;
     } catch (error) {
       console.error('Error fetching balance:', error);
@@ -131,39 +104,20 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Get wallet account info with balance
-   */
   async getAccountInfo(address: string): Promise<WalletAccount> {
     const balance = await this.getBalance(address);
-    return {
-      address,
-      publicKey: '', // Will be set when wallet is connected
-      balance,
-    };
+    return { address, publicKey: '', balance };
   }
 
-  /**
-   * Request tokens from faucet (testnet only)
-   */
   async requestFromFaucet(address: string): Promise<boolean> {
-    if (this.config.network !== 'testnet') {
-      throw new Error('Faucet is only available on testnet');
-    }
+    if (this.config.network !== 'testnet') throw new Error('Faucet is only available on testnet');
 
     try {
       const response = await fetch(`${this.config.faucetUrl}/gas`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          FixedAmountRequest: {
-            recipient: address,
-          },
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ FixedAmountRequest: { recipient: address } }),
       });
-
       return response.ok;
     } catch (error) {
       console.error('Error requesting from faucet:', error);
@@ -171,52 +125,36 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Create and sign a transaction using wallet extension
-   */
   async createTransaction(
     sender: string,
     recipient: string,
-    amount: string,
-    coinType?: string
+    amount: string | number | bigint
   ): Promise<string> {
     if (this.walletExtension) {
-      // Use wallet extension for transaction
       return this.createTransactionWithExtension(sender, recipient, amount);
     } else if (this.keypair) {
-      // Fallback to programmatic signing
       return this.createTransactionWithKeypair(sender, recipient, amount);
     } else {
       throw new Error('No wallet connected');
     }
   }
 
-  /**
-   * Create transaction using wallet extension
-   */
   private async createTransactionWithExtension(
     sender: string,
     recipient: string,
-    amount: string
+    amount: string | number | bigint
   ): Promise<string> {
     const tx = new Transaction();
-    
-    // Split coins for the transfer amount
-    const [coin] = tx.splitCoins(tx.gas, [amount]);
-    
-    // Transfer the coin to recipient
+    const numericAmount = typeof amount === 'string' ? BigInt(amount) : BigInt(amount);
+    const [coin] = tx.splitCoins(tx.gas, [numericAmount]);
     tx.transferObjects([coin], recipient);
-
-    // Set sender
     tx.setSender(sender);
 
     try {
-      // Request wallet extension to sign and execute
       const result = await this.walletExtension.signAndExecuteTransactionBlock({
         transactionBlock: tx,
         account: sender,
       });
-
       return result.digest;
     } catch (error) {
       console.error('Error executing transaction with extension:', error);
@@ -224,36 +162,24 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Create transaction using keypair (fallback)
-   */
   private async createTransactionWithKeypair(
     sender: string,
     recipient: string,
-    amount: string
+    amount: string | number | bigint
   ): Promise<string> {
-    if (!this.keypair) {
-      throw new Error('No keypair available');
-    }
+    if (!this.keypair) throw new Error('No keypair available');
 
     const tx = new Transaction();
-    
-    // Split coins for the transfer amount
-    const [coin] = tx.splitCoins(tx.gas, [amount]);
-    
-    // Transfer the coin to recipient
+    const numericAmount = typeof amount === 'string' ? BigInt(amount) : BigInt(amount);
+    const [coin] = tx.splitCoins(tx.gas, [numericAmount]);
     tx.transferObjects([coin], recipient);
-
-    // Set sender
     tx.setSender(sender);
 
     try {
-      // Execute the transaction
       const result = await this.client.signAndExecuteTransaction({
         signer: this.keypair,
         transaction: tx,
       });
-
       return result.digest;
     } catch (error) {
       console.error('Error executing transaction:', error);
@@ -261,18 +187,11 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Get transaction details
-   */
   async getTransaction(digest: string) {
     try {
       return await this.client.getTransactionBlock({
         digest,
-        options: {
-          showInput: true,
-          showEffects: true,
-          showEvents: true,
-        },
+        options: { showInput: true, showEffects: true, showEvents: true },
       });
     } catch (error) {
       console.error('Error fetching transaction:', error);
@@ -280,18 +199,11 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Get owned objects for an address
-   */
   async getOwnedObjects(address: string) {
     try {
       return await this.client.getOwnedObjects({
         owner: address,
-        options: {
-          showType: true,
-          showContent: true,
-          showDisplay: true,
-        },
+        options: { showType: true, showContent: true, showDisplay: true },
       });
     } catch (error) {
       console.error('Error fetching owned objects:', error);
@@ -299,40 +211,28 @@ export class OneChainWalletService {
     }
   }
 
-  /**
-   * Disconnect wallet
-   */
   disconnect(): void {
     this.keypair = undefined;
   }
 
-  /**
-   * Check if wallet is connected
-   */
   isConnected(): boolean {
     return !!this.keypair;
   }
 
-  /**
-   * Get current keypair
-   */
   getKeypair(): Ed25519Keypair | undefined {
     return this.keypair;
   }
 
-  /**
-   * Export private key (use with caution)
-   */
   exportPrivateKey(): string {
-    if (!this.keypair) {
-      throw new Error('No wallet connected');
-    }
-    const secretKey = this.keypair.getSecretKey();
-    return toBase64(secretKey);
+    if (!this.keypair) throw new Error('No wallet connected');
+
+    const secretKeyString = this.keypair.getSecretKey(); // string
+    const secretKeyBytes = new TextEncoder().encode(secretKeyString); // Uint8Array
+    return toBase64(secretKeyBytes);
   }
 }
 
-// Create singleton instance
+// Singleton instance
 export const oneChainService = new OneChainWalletService({
   rpcUrl: process.env.NEXT_PUBLIC_ONECHAIN_RPC_URL || 'https://rpc-testnet.onelabs.cc:443',
   faucetUrl: process.env.NEXT_PUBLIC_ONECHAIN_FAUCET_URL || 'https://faucet-testnet.onelabs.cc:443',

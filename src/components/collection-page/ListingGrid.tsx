@@ -7,35 +7,46 @@ import {
   SimpleGrid,
   useBreakpointValue,
   Text,
+  VStack,
+  HStack,
+  Badge,
 } from "@chakra-ui/react";
 import { MediaRenderer } from "thirdweb/react";
 import { ComplianceBadge } from "@/components/shared/ComplianceBadge";
 
 type Category = "all" | "property" | "carbon";
 
+interface ERC4907Metadata {
+  name?: string;
+  image?: string;
+  attributes?: Array<{ trait_type?: string; traitType?: string; value?: any }>;
+  owner?: string;
+  user?: string;
+  expires?: string; // UNIX timestamp or ISO string
+}
+
 export function ListingGrid({ category = "all" }: { category?: Category }) {
   const { listingsInSelectedCollection, nftContract } = useMarketplaceContext();
-  
-  // Demo listings for when no real listings are available
+
   const demoListings = [
     {
       id: 1n,
       asset: {
         id: 1n,
         metadata: {
-          name: "Luxury Downtown Apartment",
-          image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=400&fit=crop",
+          name: "///airship.neat.sulky",
+          image: "https://i.imgur.com/s3iIMfD.jpeg?w=400&h=400&fit=crop",
           attributes: [
-            { trait_type: "category", value: "property" },
-            { trait_type: "location", value: "New York, NY" },
-            { trait_type: "compliance", value: "verified" }
-          ]
+            { trait_type: "CITY", value: "ATL5D" },
+            { trait_type: "RWA ST", value: "$ANS" },
+            { trait_type: "HAHZTAG", value: "#airshipneatsulky" }
+          ],
+          owner: "0x8F3b48431FA3d9b92ff7157E890105F9B5f96089",
+          user: "0x8F3b48431FA3d9b92ff7157E890105F9B5f96089",
+          expires: "2025-12-31T23:59:59Z"
         }
       },
-      currencyValuePerToken: {
-        displayValue: "0.025",
-        symbol: "ETH"
-      }
+      currencyValuePerToken: { displayValue: "0.025", symbol: "ETH" }
     },
     {
       id: 2n,
@@ -48,61 +59,22 @@ export function ListingGrid({ category = "all" }: { category?: Category }) {
             { trait_type: "category", value: "carbon" },
             { trait_type: "type", value: "Forest Conservation" },
             { trait_type: "compliance", value: "verified" }
-          ]
+          ],
+          owner: "0xOwnerAddress2",
         }
       },
-      currencyValuePerToken: {
-        displayValue: "0.01",
-        symbol: "ETH"
-      }
-    },
-    {
-      id: 3n,
-      asset: {
-        id: 3n,
-        metadata: {
-          name: "Commercial Real Estate",
-          image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=400&fit=crop",
-          attributes: [
-            { trait_type: "category", value: "property" },
-            { trait_type: "location", value: "San Francisco, CA" },
-            { trait_type: "compliance", value: "verified" }
-          ]
-        }
-      },
-      currencyValuePerToken: {
-        displayValue: "0.05",
-        symbol: "ETH"
-      }
-    },
-    {
-      id: 4n,
-      asset: {
-        id: 4n,
-        metadata: {
-          name: "Renewable Energy Credits",
-          image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=400&fit=crop",
-          attributes: [
-            { trait_type: "category", value: "carbon" },
-            { trait_type: "type", value: "Solar Energy" },
-            { trait_type: "compliance", value: "verified" }
-          ]
-        }
-      },
-      currencyValuePerToken: {
-        displayValue: "0.008",
-        symbol: "ETH"
-      }
+      currencyValuePerToken: { displayValue: "0.01", symbol: "ETH" }
     }
   ];
 
   const listingsToShow = listingsInSelectedCollection && listingsInSelectedCollection.length > 0 
     ? listingsInSelectedCollection 
     : demoListings;
-    
+
   const filtered = listingsToShow.filter((item) =>
     isInCategory(item.asset?.metadata, category)
   );
+
   const len = filtered.length;
   const columns = useBreakpointValue({
     base: 1,
@@ -111,39 +83,61 @@ export function ListingGrid({ category = "all" }: { category?: Category }) {
     lg: Math.min(len, 4),
     xl: Math.min(len, 5),
   });
-  if (!filtered.length) return <></>;
+
+  if (!filtered.length) return <Text textAlign="center">No items found</Text>;
+
   return (
     <SimpleGrid columns={columns} spacing={4} p={4} mx="auto" mt="20px">
-      {filtered.map((item) => (
-        <Box
-          key={item.id}
-          rounded="12px"
-          as={Link}
-          href={`/collection/${nftContract.chain.id}/${nftContract.address}/token/${item.asset.id.toString()}`}
-          _hover={{ textDecoration: "none" }}
-        >
-          <Flex direction="column">
-            <MediaRenderer client={client} src={item.asset.metadata.image} />
-            <Text>{item.asset?.metadata?.name ?? "Unknown item"}</Text>
-            <ComplianceBadge verified={isVerified(item.asset.metadata)} />
-            <Text>Price</Text>
-            <Text>
-              {item.currencyValuePerToken.displayValue} {item.currencyValuePerToken.symbol}
-            </Text>
-          </Flex>
-        </Box>
-      ))}
+      {filtered.map((item) => {
+        const meta: ERC4907Metadata = item.asset.metadata;
+        const verified = isVerified(meta);
+        const isRentable = !!meta.user && !!meta.expires;
+
+        return (
+          <Box
+            key={item.id.toString()}
+            rounded="12px"
+            border="1px solid"
+            borderColor="gray.200"
+            overflow="hidden"
+            as={Link}
+            href={`/collection/${nftContract.chain.id}/${nftContract.address}/token/${item.asset.id.toString()}`}
+            _hover={{ textDecoration: "none", shadow: "lg" }}
+          >
+            <VStack spacing={2} p={2}>
+              <MediaRenderer client={client} src={meta.image || ""} />
+              <Text fontWeight="bold">{meta.name ?? "Unknown Item"}</Text>
+
+              <ComplianceBadge verified={verified} />
+
+              {meta.owner && <Text fontSize="sm">Owner: {shortenAddress(meta.owner)}</Text>}
+              {isRentable && (
+                <HStack spacing={2} fontSize="sm">
+                  <Badge colorScheme="purple">Rented</Badge>
+                  <Text>User: {shortenAddress(meta.user)}</Text>
+                  <Text>Expires: {formatDate(meta.expires!)}</Text>
+                </HStack>
+              )}
+
+              <Text fontWeight="bold">Price</Text>
+              <Text>
+                {item.currencyValuePerToken.displayValue} {item.currencyValuePerToken.symbol}
+              </Text>
+            </VStack>
+          </Box>
+        );
+      })}
     </SimpleGrid>
   );
 }
 
-function isVerified(metadata: any): boolean {
+function isVerified(metadata: ERC4907Metadata): boolean {
   try {
-    const attrs = (metadata?.attributes || []) as Array<any>;
+    const attrs = metadata?.attributes || [];
     const flag = attrs.find(
       (a) =>
         (a.trait_type || a.traitType || "").toLowerCase() === "compliance" ||
-        (a.trait_type || a.traitType || "").toLowerCase() === "verified",
+        (a.trait_type || a.traitType || "").toLowerCase() === "verified"
     );
     if (!flag) return false;
     const val = String(flag.value || "").toLowerCase();
@@ -153,40 +147,36 @@ function isVerified(metadata: any): boolean {
   }
 }
 
-function isInCategory(metadata: any, category: Category): boolean {
+function isInCategory(metadata: ERC4907Metadata, category: Category): boolean {
   if (category === "all") return true;
+  const lower = Object.fromEntries(
+    Object.entries(metadata || {}).map(([k, v]) => [String(k).toLowerCase(), v])
+  );
+  const direct = String(lower["category"] || lower["asset_type"] || lower["type"] || "").toLowerCase();
+  if (direct) {
+    if (category === "carbon") return direct.includes("carbon");
+    if (category === "property") return direct.includes("property") || direct.includes("real estate");
+  }
+  const attrs = metadata?.attributes || [];
+  for (const a of attrs) {
+    const t = String(a?.trait_type || a?.traitType || "").toLowerCase();
+    const v = String(a?.value || "").toLowerCase();
+    if (category === "carbon" && v.includes("carbon")) return true;
+    if (category === "property" && (v.includes("property") || v.includes("real estate"))) return true;
+    if (t === "is_carbon" && category === "carbon" && (v === "true" || v === "yes" || v === "1")) return true;
+  }
+  return false;
+}
+
+function shortenAddress(addr: string): string {
+  return addr ? addr.slice(0, 6) + "..." + addr.slice(-4) : "";
+}
+
+function formatDate(dateStr: string): string {
   try {
-    const lower = Object.fromEntries(
-      Object.entries(metadata || {}).map(([k, v]) => [String(k).toLowerCase(), v])
-    );
-    const direct = String(
-      lower["category"] || lower["asset_type"] || lower["type"] || ""
-    ).toLowerCase();
-    if (direct) {
-      if (category === "carbon") return direct.includes("carbon");
-      if (category === "property")
-        return direct.includes("property") || direct.includes("real estate");
-    }
-    const attrs = (metadata?.attributes || []) as Array<any>;
-    for (const a of attrs) {
-      const t = String(a?.trait_type || a?.traitType || "").toLowerCase();
-      if (["category", "asset_type", "type"].includes(t)) {
-        const v = String(a?.value || "").toLowerCase();
-        if (category === "carbon" && v.includes("carbon")) return true;
-        if (
-          category === "property" &&
-          (v.includes("property") || v.includes("real estate"))
-        )
-          return true;
-      }
-      if (t === "is_carbon") {
-        const v = String(a?.value || "").toLowerCase();
-        if (category === "carbon" && (v === "true" || v === "yes" || v === "1"))
-          return true;
-      }
-    }
-    return false;
+    const d = new Date(dateStr);
+    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
   } catch {
-    return false;
+    return dateStr;
   }
 }
