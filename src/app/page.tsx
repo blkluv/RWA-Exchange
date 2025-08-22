@@ -19,12 +19,12 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  keyframes,
   Card,
   CardBody,
 } from "@chakra-ui/react";
 import { FaArrowRight, FaChartLine, FaGlobe, FaShieldAlt, FaStar, FaArrowUp } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { keyframes } from "@emotion/react";
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -111,7 +111,7 @@ export default function Home() {
                   fontWeight="600"
                   boxShadow="glow"
                 >
-                RWA What3Words Street
+                RWA Blockchain Wall Street
                 </Badge>
               </MotionBox>
               
