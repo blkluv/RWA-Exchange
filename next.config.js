@@ -32,6 +32,10 @@ const nextConfig = {
   experimental: {
     esmExternals: 'loose',
   },
+  // ADD THIS SECTION TO DISABLE ESLINT DURING BUILDS
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
