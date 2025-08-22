@@ -54,7 +54,7 @@ export function Navbar() {
         letterSpacing="wide"
         size={{ base: "md", md: "lg" }}
       >
-        RWA EXCHANGE
+        RWA ST.
 </Heading>
 
         </Box>
@@ -62,8 +62,8 @@ export function Navbar() {
         {/* Desktop Navigation */}
         <HStack display={{ lg: "flex", base: "none" }} spacing={4}>
           <HStack spacing={6}>
-            <Link href="/landing" _hover={{ textDecoration: "none" }}>
-              <Text fontWeight="medium" fontSize="sm">About</Text>
+            <Link href="https://rnt.social" _hover={{ textDecoration: "none" }}>
+              <Text fontWeight="medium" fontSize="sm">Social Media</Text>
             </Link>
             <Link href="/dashboard" _hover={{ textDecoration: "none" }}>
               <Text fontWeight="medium" fontSize="sm">Dashboard</Text>

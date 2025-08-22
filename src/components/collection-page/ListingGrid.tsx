@@ -39,14 +39,14 @@ export function ListingGrid({ category = "all" }: { category?: Category }) {
           attributes: [
             { trait_type: "CITY", value: "ATL5D" },
             { trait_type: "RWA ST", value: "$ANS" },
-            { trait_type: "HAHZTAG", value: "#airshipneatsulky" }
+            { trait_type: "HAHZTAG", value: "#airshipneatsulky" },
           ],
           owner: "0x8F3b48431FA3d9b92ff7157E890105F9B5f96089",
           user: "0x8F3b48431FA3d9b92ff7157E890105F9B5f96089",
-          expires: "2025-12-31T23:59:59Z"
-        }
+          expires: "2025-12-31T23:59:59Z",
+        },
       },
-      currencyValuePerToken: { displayValue: "0.025", symbol: "ETH" }
+      currencyValuePerToken: { displayValue: "0.025", symbol: "ETH" },
     },
     {
       id: 2n,
@@ -54,25 +54,27 @@ export function ListingGrid({ category = "all" }: { category?: Category }) {
         id: 2n,
         metadata: {
           name: "Carbon Credit Portfolio",
-          image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop",
+          image:
+            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop",
           attributes: [
             { trait_type: "category", value: "carbon" },
             { trait_type: "type", value: "Forest Conservation" },
-            { trait_type: "compliance", value: "verified" }
+            { trait_type: "compliance", value: "verified" },
           ],
           owner: "0xOwnerAddress2",
-        }
+        },
       },
-      currencyValuePerToken: { displayValue: "0.01", symbol: "ETH" }
-    }
+      currencyValuePerToken: { displayValue: "0.01", symbol: "ETH" },
+    },
   ];
 
-  const listingsToShow = listingsInSelectedCollection && listingsInSelectedCollection.length > 0 
-    ? listingsInSelectedCollection 
-    : demoListings;
+  const listingsToShow =
+    listingsInSelectedCollection && listingsInSelectedCollection.length > 0
+      ? listingsInSelectedCollection
+      : demoListings;
 
   const filtered = listingsToShow.filter((item) =>
-    isInCategory(item.asset?.metadata, category)
+    isInCategory(normalizeMetadata(item.asset?.metadata), category)
   );
 
   const len = filtered.length;
@@ -89,7 +91,7 @@ export function ListingGrid({ category = "all" }: { category?: Category }) {
   return (
     <SimpleGrid columns={columns} spacing={4} p={4} mx="auto" mt="20px">
       {filtered.map((item) => {
-        const meta: ERC4907Metadata = item.asset.metadata;
+        const meta = normalizeMetadata(item.asset.metadata);
         const verified = isVerified(meta);
         const isRentable = !!meta.user && !!meta.expires;
 
@@ -110,18 +112,23 @@ export function ListingGrid({ category = "all" }: { category?: Category }) {
 
               <ComplianceBadge verified={verified} />
 
-              {meta.owner && <Text fontSize="sm">Owner: {shortenAddress(meta.owner)}</Text>}
+              {meta.owner && (
+                <Text fontSize="sm">Owner: {shortenAddress(meta.owner)}</Text>
+              )}
               {isRentable && (
                 <HStack spacing={2} fontSize="sm">
                   <Badge colorScheme="purple">Rented</Badge>
-                  <Text>User: {shortenAddress(meta.user)}</Text>
-                  <Text>Expires: {formatDate(meta.expires!)}</Text>
+                  <Text>
+                    User: {meta.user ? shortenAddress(meta.user) : "N/A"}
+                  </Text>
+                  <Text>Expires: {formatDate(meta.expires || "")}</Text>
                 </HStack>
               )}
 
               <Text fontWeight="bold">Price</Text>
               <Text>
-                {item.currencyValuePerToken.displayValue} {item.currencyValuePerToken.symbol}
+                {item.currencyValuePerToken.displayValue}{" "}
+                {item.currencyValuePerToken.symbol}
               </Text>
             </VStack>
           </Box>
@@ -129,6 +136,37 @@ export function ListingGrid({ category = "all" }: { category?: Category }) {
       })}
     </SimpleGrid>
   );
+}
+
+/**
+ * Normalize NFT metadata to ERC4907Metadata shape
+ */
+function normalizeMetadata(metadata: any): ERC4907Metadata {
+  if (!metadata) return {};
+  const normalized: ERC4907Metadata = {
+    name: metadata.name,
+    image: metadata.image,
+    owner: metadata.owner,
+    user: metadata.user,
+    expires: metadata.expires,
+    attributes: [],
+  };
+
+  if (Array.isArray(metadata.attributes)) {
+    normalized.attributes = metadata.attributes.map((attr: any) => ({
+      trait_type: attr.trait_type ?? attr.traitType,
+      value: attr.value,
+    }));
+  } else if (metadata.attributes && typeof metadata.attributes === "object") {
+    normalized.attributes = Object.entries(metadata.attributes).map(
+      ([k, v]) => ({
+        trait_type: k,
+        value: v,
+      })
+    );
+  }
+
+  return normalized;
 }
 
 function isVerified(metadata: ERC4907Metadata): boolean {
@@ -152,18 +190,30 @@ function isInCategory(metadata: ERC4907Metadata, category: Category): boolean {
   const lower = Object.fromEntries(
     Object.entries(metadata || {}).map(([k, v]) => [String(k).toLowerCase(), v])
   );
-  const direct = String(lower["category"] || lower["asset_type"] || lower["type"] || "").toLowerCase();
+  const direct = String(
+    lower["category"] || lower["asset_type"] || lower["type"] || ""
+  ).toLowerCase();
   if (direct) {
     if (category === "carbon") return direct.includes("carbon");
-    if (category === "property") return direct.includes("property") || direct.includes("real estate");
+    if (category === "property")
+      return direct.includes("property") || direct.includes("real estate");
   }
   const attrs = metadata?.attributes || [];
   for (const a of attrs) {
     const t = String(a?.trait_type || a?.traitType || "").toLowerCase();
     const v = String(a?.value || "").toLowerCase();
     if (category === "carbon" && v.includes("carbon")) return true;
-    if (category === "property" && (v.includes("property") || v.includes("real estate"))) return true;
-    if (t === "is_carbon" && category === "carbon" && (v === "true" || v === "yes" || v === "1")) return true;
+    if (
+      category === "property" &&
+      (v.includes("property") || v.includes("real estate"))
+    )
+      return true;
+    if (
+      t === "is_carbon" &&
+      category === "carbon" &&
+      (v === "true" || v === "yes" || v === "1")
+    )
+      return true;
   }
   return false;
 }
@@ -174,8 +224,13 @@ function shortenAddress(addr: string): string {
 
 function formatDate(dateStr: string): string {
   try {
+    if (!dateStr) return "N/A";
     const d = new Date(dateStr);
-    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    return d.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
   } catch {
     return dateStr;
   }

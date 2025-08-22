@@ -3,7 +3,7 @@ import { Providers } from "@/components/shared/Providers";
 import { Navbar } from "@/components/shared/Navbar";
 
 export const metadata: Metadata = {
-	title: "RWA ExChange",
+	title: "RWA ST.",
 	description:
 		"Trade tokenized real-world assets like real estate, art, and collectibles.",
 };

@@ -111,7 +111,7 @@ export default function Home() {
                   fontWeight="600"
                   boxShadow="glow"
                 >
-                  Revolutionary RWA Platform
+                RWA What3Words Street
                 </Badge>
               </MotionBox>
               

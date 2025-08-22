@@ -95,7 +95,7 @@ export default function LandingPage() {
         <Container maxW="7xl">
           <VStack spacing={8} textAlign="center">
             <Badge colorScheme="purple" variant="solid" px={4} py={2} rounded="full">
-              Revolutionary RWA Platform
+              RWA Tokenopoly Market
             </Badge>
             
             <Heading 

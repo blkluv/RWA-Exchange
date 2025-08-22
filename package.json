@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "setup": "node setup.js"
   },
   "dependencies": {
@@ -46,6 +47,8 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "chai": "^5.2.1",
+    "eslint": "^9.33.0",
+    "eslint-config-next": "^15.5.0",
     "ethers": "^6.15.0",
     "hardhat": "^3.0.0",
     "hardhat-gas-reporter": "^2.3.0",
