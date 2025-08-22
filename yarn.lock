@@ -400,7 +400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:11.14.0, @emotion/react@npm:^11.11.4":
+"@emotion/react@npm:11.14.0, @emotion/react@npm:^11.14.0":
   version: 11.14.0
   resolution: "@emotion/react@npm:11.14.0"
   dependencies:
@@ -9649,7 +9649,7 @@ __metadata:
     "@chakra-ui/react": "npm:^2.8.2"
     "@chakra-ui/theme-tools": "npm:^2.1.2"
     "@coinbase-sample/prime-sdk-ts": "npm:^0.6.3"
-    "@emotion/react": "npm:^11.11.4"
+    "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.11.5"
     "@harmony-js/core": "npm:^0.1.57"
     "@nomicfoundation/hardhat-chai-matchers": "npm:^2.1.0"

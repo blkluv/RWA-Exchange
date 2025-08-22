@@ -24,7 +24,6 @@ import {
   useColorModeValue,
   Icon,
   Button,
-  keyframes
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMarketplaceContext } from "@/hooks/useMarketplaceContext";
@@ -35,17 +34,6 @@ import { FaChartLine, FaUsers, FaCoins } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const MotionBox = motion(Box);
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 type Category = "all" | "property" | "carbon";
 

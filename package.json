@@ -16,7 +16,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@chakra-ui/theme-tools": "^2.1.2",
     "@coinbase-sample/prime-sdk-ts": "^0.6.3",
-    "@emotion/react": "^11.11.4",
+    "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.11.5",
     "@harmony-js/core": "^0.1.57",
     "@oneid-xyz/inspect": "^1.1.1",

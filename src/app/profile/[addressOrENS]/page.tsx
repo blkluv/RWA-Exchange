@@ -3,6 +3,7 @@
 import { ProfileSection } from "@/components/profile-page/Profile";
 import { useResolveENSAddress } from "@/hooks/useResolveENSAddress";
 import { Box, Text } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
 import { notFound } from "next/navigation";
 import { isAddress } from "thirdweb/utils";
 

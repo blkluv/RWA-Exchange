@@ -167,13 +167,13 @@ export default function BuyFromListingButton(props: Props) {
 					py={6}
 					flex={1}
 					rightIcon={<FaShoppingCart />}
-					whileHover={{ scale: 1.02 }}
-					whileTap={{ scale: 0.98 }}
-					_hover={{
-						transform: "translateY(-2px)",
-						boxShadow: "xl"
+					whileHover={{ 
+						scale: 1.02,
+						boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
+						y: -2
 					}}
-					transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+					whileTap={{ scale: 0.98 }}
+					transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
 				>
 					Buy Fractions
 				</MotionButton>

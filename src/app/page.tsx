@@ -29,8 +29,6 @@ import { keyframes } from "@emotion/react";
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
 
-
-
 const float = keyframes`
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -49,14 +47,14 @@ const shimmer = keyframes`
 export default function Home() {
   const gradient = useColorModeValue(
     "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)"
+    "linear-gradient(135deg, #000000 0%, #1a0033 50%, #330066 100%)"
   );
   const cardBg = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.600", "gray.300");
   const glowColor = useColorModeValue("purple.500", "purple.300");
 
   return (
-    <Box>
+    <Box bg="black">
       {/* Hero Section with Advanced Animations */}
       <Box
         bg={gradient}
@@ -88,6 +86,30 @@ export default function Home() {
           animation={`${float} 4s ease-in-out infinite reverse`}
         />
         
+        {/* Mint Green Floating Elements */}
+        <Box
+          position="absolute"
+          top="20%"
+          right="20%"
+          w="40px"
+          h="40px"
+          borderRadius="full"
+          bg="rgba(152, 251, 152, 0.3)"
+          animation={`${float} 5s ease-in-out infinite`}
+          filter="blur(8px)"
+        />
+        <Box
+          position="absolute"
+          bottom="30%"
+          left="20%"
+          w="30px"
+          h="30px"
+          borderRadius="full"
+          bg="rgba(152, 251, 152, 0.4)"
+          animation={`${float} 7s ease-in-out infinite reverse`}
+          filter="blur(6px)"
+        />
+        
         <Container maxW="7xl" position="relative" zIndex={1}>
           <MotionBox
             initial={{ opacity: 0, y: 50 }}
@@ -109,7 +131,9 @@ export default function Home() {
                   fontSize="md"
                   fontFamily="Outfit"
                   fontWeight="600"
-                  boxShadow="glow"
+                  boxShadow="0 0 20px rgba(128, 0, 128, 0.6)"
+                  border="2px solid"
+                  borderColor="purple.400"
                 >
                 RWA Blockchain Wall Street
                 </Badge>
@@ -125,9 +149,10 @@ export default function Home() {
                   fontFamily="Outfit"
                   fontWeight="800"
                   lineHeight="1.1"
-                  bgGradient="linear(to-r, white, purple.200)"
+                  bgGradient="linear(to-r, white, #9F7AEA)"
                   bgClip="text"
                   maxW="5xl"
+                  textShadow="0 0 30px rgba(159, 122, 234, 0.5)"
                 >
                   Fractionalize the Planet. Trade Like Wall Street.
                 </Heading>
@@ -144,8 +169,9 @@ export default function Home() {
                   opacity={0.9}
                   fontFamily="Inter"
                   lineHeight="1.8"
+                  color="gray.200"
                 >
-                  Every asset has an rentable address. Every share has a ticker. Invest seamlessly in
+                  Every asset has a rentable address. Every share has a ticker. Invest seamlessly in
                   tokenized real-world assets, precisely located by what3words. Build your portfolio
                   with ownership stakes starting at $100.
                 </Text>
@@ -161,8 +187,8 @@ export default function Home() {
                     as={Link} 
                     href="/collection" 
                     size="lg"
-                    bg="white"
-                    color="purple.600"
+                    bg="linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%)"
+                    color="white"
                     fontFamily="Outfit"
                     fontWeight="700"
                     px={8}
@@ -170,10 +196,12 @@ export default function Home() {
                     rightIcon={<FaArrowRight />}
                     _hover={{ 
                       transform: "translateY(-3px) scale(1.05)",
-                      boxShadow: "glowLg",
-                      bg: "purple.50"
+                      boxShadow: "0 0 30px rgba(159, 122, 234, 0.6)",
+                      bg: "linear-gradient(135deg, #805AD5 0%, #6B46C1 100%)"
                     }}
                     transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                    border="2px solid"
+                    borderColor="purple.300"
                   >
                     Explore Marketplace
                   </Button>
@@ -182,17 +210,19 @@ export default function Home() {
                     href="/dashboard" 
                     size="lg"
                     variant="outline"
-                    borderColor="white"
+                    borderColor="#98FB98"
                     borderWidth="2px"
-                    color="white"
+                    color="#98FB98"
                     fontFamily="Outfit"
                     fontWeight="600"
                     px={8}
                     py={6}
                     _hover={{ 
-                      bg: "whiteAlpha.200",
+                      bg: "rgba(152, 251, 152, 0.1)",
                       transform: "translateY(-3px)",
-                      borderColor: "purple.200"
+                      borderColor: "#7CFC00",
+                      color: "#7CFC00",
+                      boxShadow: "0 0 20px rgba(152, 251, 152, 0.4)"
                     }}
                     transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                   >
@@ -206,13 +236,13 @@ export default function Home() {
       </Box>
 
       {/* Animated Stats Section */}
-      <Box py={20} bg={useColorModeValue("gray.50", "gray.900")} position="relative">
+      <Box py={20} bg="black" position="relative">
         <Container maxW="7xl">
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={12}>
             {[
-              { icon: FaChartLine, value: "$2.5M+", label: "Total Value Locked", color: "blue" },
+              { icon: FaChartLine, value: "$2.5M+", label: "Total Value Locked", color: "purple" },
               { icon: FaGlobe, value: "25+", label: "Asset Categories", color: "green" },
-              { icon: FaShieldAlt, value: "150+", label: "Verified Investors", color: "purple" }
+              { icon: FaShieldAlt, value: "150+", label: "Verified Investors", color: "#98FB98" }
             ].map((stat, index) => (
               <MotionBox
                 key={index}
@@ -224,31 +254,41 @@ export default function Home() {
                 <VStack 
                   spacing={6} 
                   p={8} 
-                  bg={cardBg} 
+                  bg="rgba(26, 0, 51, 0.8)"
                   rounded="2xl" 
                   shadow="lg"
+                  border="1px solid"
+                  borderColor={stat.color === "#98FB98" ? "rgba(152, 251, 152, 0.3)" : `${stat.color}.400`}
+                  backdropFilter="blur(10px)"
                   _hover={{ 
                     transform: "translateY(-5px)",
-                    shadow: "xl"
+                    shadow: "0 0 30px rgba(159, 122, 234, 0.4)",
+                    borderColor: stat.color === "#98FB98" ? "#98FB98" : `${stat.color}.500`
                   }}
                   transition="all 0.3s ease"
                 >
                   <Box
                     p={4}
-                    bg={`${stat.color}.50`}
+                    bg={stat.color === "#98FB98" ? "rgba(152, 251, 152, 0.2)" : `${stat.color}.50`}
                     rounded="full"
                     animation={`${pulse} 2s ease-in-out infinite`}
+                    border="1px solid"
+                    borderColor={stat.color === "#98FB98" ? "rgba(152, 251, 152, 0.4)" : `${stat.color}.200`}
                   >
-                    <Icon as={stat.icon} w={10} h={10} color={`${stat.color}.500`} />
+                    <Icon 
+                      as={stat.icon} 
+                      w={10} 
+                      h={10} 
+                      color={stat.color === "#98FB98" ? "#98FB98" : `${stat.color}.500`} 
+                    />
                   </Box>
                   <Stat textAlign="center">
                     <StatNumber 
                       fontSize="4xl" 
                       fontFamily="Outfit"
                       fontWeight="800"
-                      color={`${stat.color}.500`}
-                      bgGradient={`linear(to-r, ${stat.color}.400, ${stat.color}.600)`}
-                      bgClip="text"
+                      color={stat.color === "#98FB98" ? "#98FB98" : `${stat.color}.500`}
+                      textShadow={stat.color === "#98FB98" ? "0 0 10px rgba(152, 251, 152, 0.5)" : "none"}
                     >
                       {stat.value}
                     </StatNumber>
@@ -256,7 +296,7 @@ export default function Home() {
                       fontSize="lg" 
                       fontFamily="Inter"
                       fontWeight="500"
-                      color={textColor}
+                      color="gray.300"
                     >
                       {stat.label}
                     </StatLabel>
@@ -269,7 +309,7 @@ export default function Home() {
       </Box>
 
       {/* Featured Assets with Enhanced Animations */}
-      <Container maxW="7xl" py={24}>
+      <Container maxW="7xl" py={24} bg="black">
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -282,14 +322,15 @@ export default function Home() {
               textAlign="center"
               fontFamily="Outfit"
               fontWeight="800"
-              bgGradient="linear(to-r, purple.400, blue.500)"
+              bgGradient="linear(to-r, #9F7AEA, #98FB98)"
               bgClip="text"
+              textShadow="0 0 20px rgba(159, 122, 234, 0.4)"
             >
               Featured Real-World Assets
             </Heading>
             <Text 
               fontSize="xl" 
-              color={textColor} 
+              color="gray.300" 
               textAlign="center" 
               maxW="3xl"
               fontFamily="Inter"
@@ -313,11 +354,17 @@ export default function Home() {
                 y: -8,
                 transition: { duration: 0.3 }
               }}
-              bg={cardBg}
+              bg="rgba(26, 0, 51, 0.8)"
               rounded="2xl"
               overflow="hidden"
               shadow="lg"
-              _hover={{ shadow: "2xl" }}
+              border="1px solid"
+              borderColor="purple.700"
+              backdropFilter="blur(10px)"
+              _hover={{ 
+                shadow: "0 0 30px rgba(159, 122, 234, 0.4)",
+                borderColor: "purple.500"
+              }}
               position="relative"
               cursor="pointer"
             >
@@ -335,13 +382,15 @@ export default function Home() {
                   position="absolute"
                   top={4}
                   right={4}
-                  bg="whiteAlpha.900"
+                  bg="rgba(0, 0, 0, 0.8)"
                   px={3}
                   py={1}
                   rounded="full"
                   backdropFilter="blur(10px)"
+                  border="1px solid"
+                  borderColor="purple.400"
                 >
-                  <Badge colorScheme="purple" variant="subtle" fontSize="xs">
+                  <Badge colorScheme="purple" variant="solid" fontSize="xs">
                     {item.type}
                   </Badge>
                 </Box>
@@ -354,12 +403,13 @@ export default function Home() {
                     noOfLines={2}
                     fontFamily="Outfit"
                     fontWeight="700"
+                    color="white"
                   >
                     {item.title}
                   </Heading>
                   
                   <Text 
-                    color={textColor} 
+                    color="gray.300" 
                     fontSize="sm" 
                     noOfLines={3}
                     lineHeight="1.6"
@@ -369,14 +419,14 @@ export default function Home() {
                   
                   <HStack justify="space-between" w="full" pt={2}>
                     <VStack align="start" spacing={1}>
-                      <Text fontSize="xs" color="gray.500" fontWeight="500">
+                      <Text fontSize="xs" color="gray.400" fontWeight="500">
                         Starting from
                       </Text>
-                      <Text fontSize="lg" fontWeight="700" color="purple.500" fontFamily="Outfit">
+                      <Text fontSize="lg" fontWeight="700" color="#98FB98" fontFamily="Outfit">
                         $100
                       </Text>
                     </VStack>
-                    <Badge colorScheme="green" variant="subtle" px={3} py={1}>
+                    <Badge colorScheme="green" variant="solid" px={3} py={1} bg="#98FB98" color="black">
                       {item.chain.name || "Multi-chain"}
                     </Badge>
                   </HStack>
@@ -391,6 +441,12 @@ export default function Home() {
                       flex={1}
                       fontFamily="Outfit"
                       fontWeight="600"
+                      borderColor="purple.400"
+                      color="purple.300"
+                      _hover={{
+                        bg: "purple.600",
+                        color: "white"
+                      }}
                     >
                       View Details
                     </Button>
@@ -398,11 +454,16 @@ export default function Home() {
                       as={Link}
                       href={`/collection/${item.chain.id.toString()}/${item.address}?action=buy`}
                       size="sm"
-                      colorScheme="purple"
+                      bg="linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%)"
+                      color="white"
                       flex={1}
                       fontFamily="Outfit"
                       fontWeight="600"
                       rightIcon={<FaArrowRight />}
+                      _hover={{
+                        bg: "linear-gradient(135deg, #805AD5 0%, #6B46C1 100%)",
+                        transform: "translateY(-1px)"
+                      }}
                     >
                       Buy Now
                     </Button>
@@ -424,7 +485,8 @@ export default function Home() {
               as={Link} 
               href="/collection" 
               size="xl"
-              colorScheme="purple"
+              bg="linear-gradient(135deg, #9F7AEA 0%, #98FB98 100%)"
+              color="black"
               px={12}
               py={8}
               fontSize="lg"
@@ -433,9 +495,12 @@ export default function Home() {
               rightIcon={<FaArrowRight />}
               _hover={{
                 transform: "translateY(-3px) scale(1.05)",
-                boxShadow: "glowLg"
+                boxShadow: "0 0 30px rgba(159, 122, 234, 0.6)",
+                bg: "linear-gradient(135deg, #805AD5 0%, #7CFC00 100%)"
               }}
               transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+              border="2px solid"
+              borderColor="rgba(152, 251, 152, 0.5)"
             >
               Explore All Assets
             </Button>
